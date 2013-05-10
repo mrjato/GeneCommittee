@@ -102,23 +102,23 @@ public final class Configuration {
 	}
 	
 	public int getExperimentsCorePoolSize() {
-		return this.getConfigParam("execution.experiments.corePoolSize");
+		return (Integer) this.getConfigParam("execution.experiments.corePoolSize");
 	}
 	
 	public int getExperimentsMaximumPoolSize() {
-		return this.getConfigParam("execution.experiments.maximumPoolSize");
+		return (Integer) this.getConfigParam("execution.experiments.maximumPoolSize");
 	}
 	
 	public int getUtilityCorePoolSize() {
-		return this.getConfigParam("execution.utility.corePoolSize");
+		return (Integer) this.getConfigParam("execution.utility.corePoolSize");
 	}
 	
 	public int getUtilityMaximumPoolSize() {
-		return this.getConfigParam("execution.utility.maximumPoolSize");
+		return (Integer) this.getConfigParam("execution.utility.maximumPoolSize");
 	}
 
 	public int getExperimentsQueueSize() {
-		return this.getConfigParam("execution.experiments.queueSize");
+		return (Integer) this.getConfigParam("execution.experiments.queueSize");
 	}
 	
 	public String getEmailAccount() {
