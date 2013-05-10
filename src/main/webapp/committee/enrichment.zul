@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="Committee Training - Enrichment" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+<?init class="es.uvigo.ei.sing.gc.view.initiators.CommitteeInitiator" ?>
+
+<?component name="stepCaption" inline="true" macroURI="/committee/stepCaption.zul"?>
+
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul" 
+	xmlns:w="http://www.zkoss.org/2005/zk/client" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd "
+>
+	<script type="text/javascript" src="/js/ga.js"/>
+	<style src="/css/main.css"/>
+	<style src="/css/committee/committee.css"/>
+
+	<div id="container" sclass="container" align="center">
+		<include src="/header.zul"/>
+		
+		<div id="content" sclass="content">
+			<window 
+				id="main"
+				border="none" 
+				contentSclass="mainWindowContent"
+				width="960px"
+				apply="org.zkoss.bind.BindComposer" 
+				viewModel="@id('committee') @init('es.uvigo.ei.sing.gc.view.models.committee.enrichment.EnrichmentViewModel')"
+			>
+				<groupbox mold="3d" hflex="true" height="680px" closable="false">
+					<stepCaption/>
+					
+					<vlayout id="mainLayout" hflex="true" vflex="true">
+						<borderlayout height="600px">
+							<west collapsible="true" width="150px" title="Navigation">
+								<include src="/committee/navigation.zul" mode="instant"/>
+							</west>
+							<center>
+								<vlayout vflex="true" style="margin: 8px" spacing="16px" renderdefer="500">
+									<hlayout hflex="true" valign="middle" sclass="infoArea">
+										<label value="Enrich your gene set using GeneBrowser" sclass="infoLabel"/>
+										<separator hflex="true"/>
+										<button label="Enrich"
+											onClick="@command('enrich')"
+											disabled="@load(committee.hasGeneSets or committee.userTaskRunning)"
+											autodisable="+self"
+										/>
+										<button label="Continue"
+											href="@load(committee.nextHref)"
+											disabled="@load(not committee.enrichmentCompleted)"
+										/>
+									</hlayout>
+									
+									<groupbox
+										mold="3d"
+										closable="false" 
+										contentStyle="margin: 0px; padding: 0px"
+									>
+										<caption label="Gene Sets">
+										</caption>
+										<toolbar >
+											<label value="Name Filter"/>
+											<textbox id="txtNameFilter" 
+												value="@bind(committee.nameFilter)" 
+												onOK="self.setFocus(false)"
+												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
+												width="150px"
+											/>
+											
+											<space/>
+											
+											<label value="Source Filter"/>
+											<combobox id="cmbSourcesFilter"
+												model="@load(committee.sources)"
+												selectedItem="@bind(committee.sourceFilter)"
+												readonly="true"
+												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
+												width="150px"
+											/>
+											
+											<toolbarbutton label="Clear Filters" onClick="@command('clearFilters')"
+												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
+											/>
+											
+											<space bar="true"/>
+											
+											<!-- toolbarbutton label="Select Page"/>
+											<toolbarbutton label="Unselect Page"/-->
+											<toolbarbutton label="Select All" onClick="@command('selectAll')"
+												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
+											/>
+											<toolbarbutton label="Unselect All" onClick="@command('unselectAll')"
+												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
+											/>
+											<toolbarbutton label="Invert Selection" onClick="@command('invertSelection')"
+												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
+											/>
+										</toolbar>
+										
+										<separator height="8px"/>
+										
+										<grid
+											id="lbGeneSets" 
+											vflex="true"
+											height="400px"
+											mold="paging" 
+											autopaging="true"
+											model="@bind(committee.geneSets)"
+											emptyMessage="No Gene Sets (Press 'Enrich')"
+										>
+											<!-- auxhead>
+												<auxheader label="Selected"/>
+												<auxheader label="Name"/>
+												<auxheader label="Source"/>
+												<auxheader label="P-value"/>
+												<auxheader label="Genes"/>
+												<auxheader label="GeneBrowser"/>
+											</auxhead-->
+											<columns>
+												<column label="Selected" width="65px" valign="middle"
+													tooltiptext="Only the selected gene sets will be used by the committee"
+												/>
+												<column id="columnName" label="Name"
+													sortAscending="@load(committee.ascNameSorter)"
+													sortDescending="@load(committee.descNameSorter)"
+													sort="none"
+													tooltiptext="Name of the gene set"
+												/>
+												<column label="Source"
+													width="150px"
+													sortAscending="@load(committee.ascSourceSorter)"
+													sortDescending="@load(committee.descSourceSorter)"
+													tooltiptext="Source of the gene set"
+												/>
+												<column	label="P-value"
+													width="80px"
+													sortAscending="@load(committee.ascPValueSorter)"
+													sortDescending="@load(committee.descPValueSorter)"
+													tooltip="P-value of the selected top genes with these gene sets"
+												/>
+												<column	label="Coverage"
+													width="80px"
+													sortAscending="@load(committee.ascNumCoveredGenesSorter)"
+													sortDescending="@load(committee.descNumCoveredGenesSorter)"
+													tooltiptext="Number of genes of the gene sets that are present in the committee's data set"
+												/>
+												<column	label="Genes"
+													width="80px"
+													sortAscending="@load(committee.ascNumGenesSorter)"
+													sortDescending="@load(committee.descNumGenesSorter)"
+													tooltiptext="Number of genes of the gene set"
+												/>
+											</columns>
+											<rows>
+												<template name="model" var="geneSet">
+													<row>
+														<cell valign="middle" align="center">
+															<checkbox 
+																checked="@load(geneSet.selected)" 
+																tooltip="Select gene set"
+																onCheck="@command('geneSetChecked', geneSet=geneSet,checked=self.checked)"
+																disabled="@load(committee.userTaskRunning)"
+															/>
+														</cell>
+														<label value="@load(geneSet.name)" sclass="firtsColumn" tooltip="@(geneSet.name)"/>
+														<label value="@load(geneSet.source)" tooltip="@load(geneSet.source)"/>
+														<label value="@load(geneSet.formattedPValue)" tooltip="@load(geneSet.formattedPValue)"/>
+														<cell valign="middle" align="right">
+															<label value="@load(committee.getCoverage(geneSet))" 
+																tooltip="Number of genes of this gene set contained in the selected data set"
+															/>
+															<separator width="5px" height="1px" orient="vertical"/>
+															<image src="@load(committee.getCoverage(geneSet) le 100 ? '/img/committee/genebrowser16.png' : '/img/committee/genebrowser16_off.png')"
+																onClick="@command('showGeneSet', geneSet=geneSet, onlyCovered=true)"
+																style="@load(committee.getCoverage(geneSet) le 100 ? 'cursor: pointer;' : '')"
+																tooltiptext="Query GeneBrowser (the query size limit is 100)"
+															/>	
+														</cell>
+														<cell valign="middle" align="right">
+															<label value="@load(geneSet.numGenes)" 
+																tooltip="@load(geneSet.numGenes)"
+															/>
+															<separator width="5px" height="1px" orient="vertical"/>
+															<image src="@load(geneSet.numGenes le 100 ? '/img/committee/genebrowser16.png' : '/img/committee/genebrowser16_off.png')"
+																onClick="@command('showGeneSet', geneSet=geneSet, onlyCovered=false)"
+																style="@load(geneSet.numGenes le 100 ? 'cursor: pointer;' : '')"
+																tooltiptext="Query GeneBrowser (the query size limit is 100)"
+															/>
+														</cell>
+													</row>
+												</template>
+											</rows>
+										</grid>
+									</groupbox>
+								</vlayout>
+							</center>
+						</borderlayout>
+						
+						<separator height="2px"/>
+						
+						<include src="/status.zul"/>
+					</vlayout>
+				</groupbox>
+				<window 
+					id="geneBrowserWin" 
+					visible="@load(committee.geneSetURLVisible)" 
+					closable="true"
+					maximizable="true" 
+					title="Gene Browser Info" 
+					width="850px"
+					height="600px" 
+					border="normal"
+					sizable="true"
+					position="center"
+					contentStyle="margin: 0px; padding: 0px;"
+					mode="overlapped"
+					onClose="@command('closeGeneBrowserWindow')"
+				>
+					<iframe id="includeGeneWin" 
+						hflex="true" vflex="true"
+						src="@load(committee.geneSetURL)"
+					/>
+				</window>
+			</window>
+			
+			<include src="/footer.zul"/>
+		</div>
+	</div>
+</zk>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="Committee Training - Classifiers" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+<?init class="es.uvigo.ei.sing.gc.view.initiators.CommitteeInitiator" ?>
+
+<?component name="stepCaption" inline="true" macroURI="/committee/stepCaption.zul"?>
+<?component name="evalEditor" extends="vbox" class="es.uvigo.ei.sing.gc.view.committee.EvaluationEditor"?>
+<?component name="cbEditor" extends="groupbox" class="es.uvigo.ei.sing.gc.view.committee.ClassifierBuilderEditor"?>
+
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul" 
+	xmlns:w="http://www.zkoss.org/2005/zk/client" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd "
+>
+	<script type="text/javascript" src="/js/ga.js"/>
+	<style src="/css/main.css"/>
+	<style src="/css/committee/committee.css"/>
+
+	<div id="container" sclass="container" align="center">
+		<include src="/header.zul"/>
+		
+		<div id="content" sclass="content">
+			<window 
+				id="main"
+				border="none" 
+				contentSclass="mainWindowContent"
+				width="960px"
+				apply="org.zkoss.bind.BindComposer" 
+				viewModel="@id('committee') @init('es.uvigo.ei.sing.gc.view.models.committee.classifiers.ClassifiersViewModel')"
+				validationMessages="@id('vmsgs')"
+			>
+				<groupbox mold="3d" hflex="true" height="680px" closable="false">
+					<stepCaption/>
+					
+					<vlayout id="mainLayout" hflex="true" vflex="true">
+						<borderlayout height="600px">
+							<west collapsible="true" width="150px" title="Navigation">
+								<include src="/committee/navigation.zul" mode="instant"/>
+							</west>
+							<center>
+								<vlayout vflex="true" style="margin: 8px" spacing="16px" renderdefer="500">
+									<hlayout hflex="true" valign="middle" spacing="10px" sclass="infoArea">
+										<label value="Select and configure your classifiers and evaluation strategy" sclass="infoLabel"/>
+										<separator hflex="true"/>
+										<button label="Continue"
+											href="@load(committee.nextHref)"
+											disabled="@load(not committee.classifiersCompleted)"
+										/>
+									</hlayout>
+									
+									<hlayout spacing="10px" hflex="true" vflex="true">
+										<vlayout vflex="true" width="280px">
+											<groupbox mold="3d" closable="false" vflex="true">
+												<caption label="Classifiers"/>
+												
+												<hlayout>
+													<combobox id="lbClassifier" 
+														model="@init(committee.classifierTypes)" 
+														selectedItem="@bind(committee.currentClassifierType)"
+														hflex="true"
+													/>
+													<button label="Add" onClick="@command('addClassifier')"
+														disabled="@load(committee.userTaskRunning)"
+													/>
+												</hlayout>
+												<separator height="8px"/>
+												<listbox model="@bind(committee.classifiers)" vflex="true">
+													<listhead>
+														<listheader label="Classifier"/>
+														<listheader tooltiptext="Remove" width="28px"/>
+														<listheader tooltiptext="Edit" width="28px"/>
+													</listhead>
+													<template name="model" var="classifier">
+														<listitem disabled="@load(committee.userTaskRunning)">
+															<listcell>
+																<textbox value="@bind(classifier.name) @validator(committee.classifierNameValiator)"
+																	inplace="true" 
+																	onChange="@command('updateClassifier', classifier=classifier)"
+																	disabled="@load(committee.userTaskRunning)"
+																	hflex="true"
+																/>
+																<label value="@bind(vmsgs['name'])"/>
+															</listcell>
+															<listcell tooltiptext="Delete"
+																image="/img/committee/delete16.png" 
+																onClick="@command('deleteClassifier', classifier=classifier)" 
+															/>
+															<listcell tooltiptext="Edit"
+																image="/img/committee/edit16.png" 
+																onClick="@command('editClassifier', classifier=classifier)"
+															/>
+														</listitem>
+													</template>
+												</listbox>
+											</groupbox>
+											<groupbox mold="3d" closable="false" hflex="true">
+												<caption label="Evaluation Strategy"/>
+												<evalEditor id="evaluationViewer" 
+													dataMetaData="@init(committee.dataSetMetaData)"
+													expertsEvaluatorMetaData="@load(committee.expertsEvaluator)"
+													onChange="@command('updateExpertsEvaluator', evaluator=self.expertsEvaluatorMetaData)"
+													disabled="@load(committee.userTaskRunning)"
+												/>
+											</groupbox>
+										</vlayout>
+										<cbEditor id="classifierViewer" columns="1" hflex="true" vflex="true"
+											classifierBuilder="@load(committee.selectedClassifierBuilder)"
+											onChange="@command('updateSelectedClassifierBuilder', classifierBuilder=self.classifierBuilder)"
+											disabled="@load(committee.userTaskRunning)"
+										/>
+									</hlayout>
+								</vlayout>
+							</center>
+						</borderlayout>
+						
+						<separator height="2px"/>
+						
+						<include src="/status.zul"/>
+					</vlayout>
+				</groupbox>
+			</window>
+			
+			<include src="/footer.zul"/>
+		</div>
+	</div>
+</zk>

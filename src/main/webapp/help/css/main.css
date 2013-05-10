@@ -1,0 +1,119 @@
+@CHARSET "UTF-8";
+/*
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+body {
+	padding: 0;
+	background-color: white;
+	
+	font-family: arial, sans-serif;
+}
+
+h1 {
+	font-size: 1.6em;
+	color: #00396E;
+	text-shadow: 1px 1px 1px #404080;
+	font-weight: bold;
+}
+
+div#main-container h2 {
+	background-color: #183152;
+	color: white;
+	font-size: 1.2em;
+	line-height: 1.6em;
+	vertical-align: middle;
+	text-indent: 5px;
+	padding-right: 5px;
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+a.return-to-top {
+	text-decoration: inherit;
+	color: inherit;
+	font-weight: inherit;
+	float: right;
+	font-size: 0.6em;
+}
+
+div.index {
+	font-size: 0.9em;
+}
+
+ol#index-list {
+	counter-reset: item -1;
+	list-style-type: none;
+	font-weight: bold;
+	color: #183152;
+}
+
+ol#index-list>li:before {
+	content: 'Step ' counter(item, decimal) '. ';
+	counter-increment: item;
+}
+
+ol.subindex {
+	counter-reset: subindex;
+	list-style-type: none;
+}
+
+ol.subindex li:before {
+	content: counter(item, decimal) '.' counter(subindex, decimal) '. ';
+	counter-increment: subindex;
+}
+
+ol#index-list li a, ol.subindex li a  {
+	text-decoration: inherit;
+	font-weight: normal;
+	color: inherit;
+}
+
+div.step {
+	font-size: 0.9em;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+div.step h3 {
+	color: #183152;
+	font-size: 1.1em;
+	border-bottom: 2px solid #183152; 
+}
+
+div.step p em {
+	color: red;
+}
+
+div.step a {
+	text-decoration: none;
+	font-weight: bold;
+	color: #183152;
+}
+
+div.image {
+	text-align: center;
+}
+
+div.step img {
+	border: 1px solid #183152;
+	
+	-webkit-box-shadow: 1px 1px 4px #183152;
+	-moz-box-shadow: 1px 1px 4px #183152;
+	box-shadow: 1px 1px 4px #183152;
+}

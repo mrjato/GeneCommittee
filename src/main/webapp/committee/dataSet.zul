@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="Committee Training - Data Set" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+
+<?component name="stepCaption" inline="true" macroURI="/committee/stepCaption.zul"?>
+
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul" 
+	xmlns:w="http://www.zkoss.org/2005/zk/client" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd "
+>
+	<script type="text/javascript" src="/js/ga.js"/>
+	<style src="/css/main.css"/>
+	<style src="/css/committee/committee.css"/>
+
+	<div id="container" sclass="container" align="center"
+	>
+		<include src="/header.zul"/>
+		
+		<div id="content" sclass="content">
+			<window 
+				id="main"
+				border="none" 
+				contentSclass="mainWindowContent"
+				width="960px"
+				apply="org.zkoss.bind.BindComposer" 
+				viewModel="@id('committee') @init('es.uvigo.ei.sing.gc.view.models.committee.dataset.DataSetViewModel')"
+			>
+				<groupbox hflex="true" mold="3d" height="680px" closable="false">
+					<stepCaption/>
+					
+					<vlayout vflex="true" hflex="true">
+						<borderlayout height="600px">
+							<west id="westId" collapsible="true" width="150px" title="Navigation">
+								<include src="/committee/navigation.zul" mode="instant"/>
+							</west>
+						
+							<center>
+								<vlayout style="margin: 8px" spacing="16px" renderdefer="500">
+									<hlayout id="infoArea" valign="middle" spacing="10px" sclass="infoArea">
+										<label value="Select data set" sclass="infoLabel"/>
+										<combobox model="@load(committee.dataSets)" 
+											selectedItem="@bind(committee.dataSet)" 
+											width="400px" readonly="true"
+										/>
+										<separator hflex="true"/>
+										<button label="Continue"
+											href="@load(committee.nextHref)"
+											disabled="@load(not committee.dataSetCompleted)"
+										/>
+									</hlayout>
+									
+									<grid visible="@load(not empty committee.dataSet)" 
+										model="@bind(committee.dataSetProperties) @template(each.group ?'modelGroup':'model')"
+									>
+										<auxhead>
+											<auxheader label="Data Set Information" colspan="2"/>
+										</auxhead>
+										<columns>
+											<column label="Property" width="200px"/>
+											<column label="Value"/>
+										</columns>
+										
+										<template name="modelGroup" var="group">
+											<group label="@load(group.name)"/>
+										</template>
+							
+										<template name="model" var="property">
+											<row>
+												<label value="@load(property.name)"/>
+												<label value="@load(property.value)"/>
+											</row>
+										</template>
+									</grid>
+								</vlayout>
+							</center>
+						</borderlayout>
+						
+						<separator height="2px"/>
+						
+						<include src="/status.zul"/>
+					</vlayout>
+				</groupbox>
+			</window>
+			
+			<include src="/footer.zul"/>
+		</div>
+	</div>
+</zk>

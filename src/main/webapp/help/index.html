@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>GeneCommittee Help</title>
+
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	<link rel="shortcut icon" href="favicon.ico"/>
+</head>
+<body>
+	<div id="main-container">
+		<h1>Tutorial. Use Case</h1>
+		
+		<h2>
+			<a id="index">
+				Index
+			</a>
+			<a href="#index" class="return-to-top">Go to Index</a>
+		</h2>
+		<div class="index">
+			<ol id="index-list" start="0">
+				<li><a href="#step0">Data Set</a></li>
+				<li><a href="#step1">Login</a></li>
+				<li><a href="#step2">Home</a></li>
+				<li><a href="#step3">Data Management</a></li>
+				<li><a href="#step4">Committee Training</a>
+					<ol class="subindex">
+						<li><a href="#step41">Data Set Selection</a></li>
+						<li><a href="#step42">Gene Set Selection</a></li>
+						<li><a href="#step43">Gene Enrichment with GeneBrowser</a></li>
+						<li><a href="#step44">Classifiers Configuration</a></li>
+						<li><a href="#step45">Committee Evaluation</a></li>
+						<li><a href="#step46">Summary</a></li>
+					</ol>
+				</li>
+				<li><a href="#step5">Diagnostic Mode</a>
+					<ol class="subindex">
+						<li><a href="#step51">Patient Data Loading and Classification</a></li>
+						<li><a href="#step52">Diagnostic Review</a></li>
+					</ol>
+				</li>
+			</ol>
+		</div>
+		
+		<h2>
+			<a id="step0">
+				Step 0. Data Set
+			</a>
+			<a href="#index" class="return-to-top">Go to Index</a>
+		</h2>
+		<div class="step">
+			Download your sample data sets (Right Click -&gt; Save As...):
+			<ul>
+				<li>
+					<a href="samples/Gutierrez_TRAIN.csv" target="_blank">Gutierrez <em>et al.</em> [TRAIN]</a>
+				</li>
+				<li>
+					<a href="samples/Gutierrez_TEST.csv" target="_blank">Gutierrez <em>et al.</em> [TEST]</a>
+				</li>
+			</ul>
+			<p>
+				<em>TODO: Add reference to Gutierrez et al. paper</em>
+			</p>
+		</div>
+		
+		<h2>
+			<a id="step1">
+				Step 1. Login
+			</a>
+			<a href="#index" class="return-to-top">Go to Index</a>
+		</h2>
+		<div class="step">
+			<p>
+				<em>Login as normal user or as guest</em>
+			</p>
+			<div class="image">
+				<img alt="Login into GeneCommittee" src="img/example/1_index.web.png"/>
+			</div>
+		</div>
+		
+		<h2>
+			<a id="step2">
+				Step 2. Home
+			</a>
+			<a href="#index" class="return-to-top">Go to Index</a>
+		</h2>
+		<div class="step">
+			<p>
+				<em>Welcome message for guest user</em>
+			</p>
+			<div class="image">
+				<img alt="GeneCommittee Home Welcome" src="img/example/2_home.web.png"/>
+			</div>
+			<p>
+				<em>Select 'Data Management'</em>
+			</p>
+			<div class="image">
+				<img alt="GeneCommittee Home" src="img/example/3_home_clean.web.png"/>
+			</div>
+		</div>
+		
+		<h2>
+			<a id="step3">
+				Step 3. Data Management
+			</a>
+			<a href="#index" class="return-to-top">Go to Index</a>
+		</h2>
+		<div class="step">
+			<p>
+				<em>Gutierrez_TRAIN is already loaded</em>
+			</p>
+			<div class="image">
+				<img alt="Data Management" src="img/example/4_data.web.png"/>
+			</div>
+			<p>
+				<em>Gutierrez_TRAIN data view</em>
+			</p>
+			<div class="image">
+				<img alt="Data View" src="img/example/5_data_view.web.png"/>
+			</div>
+		</div>
+		
+		<h2>
+			<a id="step4">
+				Step 4. Committee Training
+			</a>
+			<a href="#index" class="return-to-top">Go to Index</a>
+		</h2>
+		<div class="step">
+			<h3>
+				<a id="step41">
+					Step 4.1. Data Set Selection
+				</a>
+				<a href="#index" class="return-to-top">Go to Index</a>
+			</h3>
+			<p>
+				<em>Select data set Gutierrez and press 'Continue'</em>
+			</p>
+			<div class="image">
+				<img alt="Committee - Data Set Selection" 
+					src="img/example/6_1_committee_data.web.png"
+				/>
+			</div>
+			
+			<h3>
+				<a id="step42">
+					Step 4.2. Gene Set Selection
+				</a>
+				<a href="#index" class="return-to-top">Go to Index</a>
+			</h3>
+			<p>
+				<em>Select 10 top genes and press 'Continue'</em>
+			</p>
+			<div class="image">
+				<img alt="Committee - Gene Set Selection" 
+					src="img/example/6_2_committee_geneset.web.png"
+				/>
+			</div>
+			
+			<h3>
+				<a id="step43">
+					Step 4.3. Gene Enrichment with GeneBrowser
+				</a>
+				<a href="#index" class="return-to-top">Go to Index</a>
+			</h3>
+			<p>
+				<em>Enrich, select all from 'Biological Process' and 'Pathways' and press 'Continue'</em>
+			</p>
+			<div class="image">
+				<img alt="Committee - Gene Set Enrichment" 
+					src="img/example/6_3_committee_enrichment.web.png"
+				/>
+			</div>
+			
+			<h3>
+				<a id="step44">
+					Step 4.4. Classifiers Configuration 
+				</a>
+				<a href="#index" class="return-to-top">Go to Index</a>
+			</h3>
+			<p>
+				<em>In this case, we will not change any configuration and press 'Continue'</em>
+			</p>
+			<div class="image">
+				<img alt="Committee - Evaluation Configuration" 
+					src="img/example/6_4_committee_classifiers.web.png"
+				/>
+			</div>
+			
+			<h3>
+				<a id="step45">
+					Step 4.5. Committee Evaluation
+				</a>
+				<a href="#index" class="return-to-top">Go to Index</a>
+			</h3>
+			<p>
+				<em>Press 'Execute' to evaluate</em>
+			</p>
+			<div class="image">
+				<img alt="Committee - Evaluation Execution" 
+					src="img/example/6_5_1_committee_evaluation_running.web.png"
+				/>
+			</div>
+			<p>
+				<em>Evaluation finish message</em>
+			</p>
+			<div class="image">
+				<img alt="Committee - Evaluation Execution Finished" 
+					src="img/example/6_5_2_committee_evaluation_finish.web.png"
+				/>
+			</div>
+			<p>
+				<em>Select best experts (in this case with kappa &gt;= 0.6) and press 'Continue'</em>
+			</p>
+			<div class="image">
+				<img alt="Committee - Expert Selection" 
+					src="img/example/6_5_3_committee_evaluation_selection.web.png"
+				/>
+			</div>
+			
+			<h3>
+				<a id="step46">
+					Step 4.6. Summary
+				</a>
+				<a href="#index" class="return-to-top">Go to Index</a>
+			</h3>
+			<p>
+				<em>Check your committee, change name if you want and press 'Finish' to save your committee</em>
+			</p>
+			<div class="image">
+				<img alt="Committee - Summary" 
+					src="img/example/6_6_committee_summary.web.png"
+				/>
+			</div>
+		</div>
+		
+		<h2>
+			<a id="step5">
+				Step 5. Diagnostic Mode
+			</a>
+			<a href="#index" class="return-to-top">Go to Index</a>
+		</h2>
+		<div class="step">
+			<h3>
+				<a id="step51">
+					Step 5.1. Patient Data Loading and Classification
+				</a>
+				<a href="#index" class="return-to-top">Go to Index</a>
+			</h3>
+			<p>
+				<em>Select the committee created and upload Gutierrez_TEST.csv using 'Upload Patient Data'</em>
+			</p>
+			<div class="image">
+				<img alt="Diagnostic Mode - Upload Patient Data" 
+					src="img/example/7_1_diagnostic_home.web.png"
+				/>
+			</div>
+			<p>
+				<em>When the classification finishes a message will be shown</em>
+			</p>
+			<div class="image">
+				<img alt="Diagnostic Mode - Classification Finished" 
+					src="img/example/7_2_diagnostic_classified.web.png"
+				/>
+			</div>
+			
+			<h3>
+				<a id="step52">
+					Step 5.2. Diagnostic Review
+				</a>
+				<a href="#index" class="return-to-top">Go to Index</a>
+			</h3>
+			<p>
+				<em>Review the diagnostic results. First by expert</em>
+			</p>
+			<div class="image">
+				<img alt="Diagnostic Mode - Diagnostic by Expert" 
+					src="img/example/7_3_1_diagnostic_classification_by_expert.web.png"
+				/>
+			</div>
+			<p>
+				<em>Diagnostic by gene set</em>
+			</p>
+			<div class="image">
+				<img alt="Diagnostic Mode - Diagnostic by Gene Set" 
+					src="img/example/7_3_2_diagnostic_classification_by_geneset.web.png"
+				/>
+			</div>
+			<p>
+				<em>Diagnostic by classifier</em>
+			</p>
+			<div class="image">
+				<img alt="Diagnostic Mode - Diagnostic by Gene Set" 
+					src="img/example/7_3_3_diagnostic_classification_by_classifier_and_voting.web.png"
+				/>
+			</div>
+			<p>
+				<em>Voting summary</em>
+			</p>
+			<div class="image">
+				<img alt="Diagnostic Mode - Summary (Voting)" 
+					src="img/example/7_3_4_diagnostic_classification_by_classifier_and_voting_2.web.png"
+				/>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

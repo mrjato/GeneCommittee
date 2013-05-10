@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="GeneCommittee - Diagnostic Mode" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul" 
+	xmlns:w="http://www.zkoss.org/2005/zk/client" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd "
+>
+	<script type="text/javascript" src="/js/ga.js"/>
+	<style src="/css/diagnostic/diagnostic.css"/>
+	<style src="/css/main.css"/>
+
+	<div id="container" sclass="container" align="center">
+		<include src="/header.zul"/>
+	
+		<div id="content" sclass="content">
+			<window 
+				id="main"
+				border="none" 
+				contentSclass="mainWindowContent"
+				width="960px"
+				apply="org.zkoss.bind.BindComposer" 
+				viewModel="@id('diagnostic') @init('es.uvigo.ei.sing.gc.view.models.diagnostic.DiagnosticViewModel')"
+			>
+				<groupbox hflex="true" mold="3d" height="680px" closable="false">
+					<caption label="Diagnostic Mode" image="/img/diagnostic22.png"/>
+					
+					<vlayout vflex="true" hflex="true" spacing="16px">
+						<hlayout valign="middle" spacing="10px" sclass="infoArea">
+							<label value="Select a committee" sclass="infoLabel"/>
+							<combobox model="@load(diagnostic.committees)" 
+								selectedItem="@bind(diagnostic.selectedCommittee)" 
+								readonly="true"
+							/>
+							<label value=" and view diagnostic" sclass="infoLabel"/>
+							<combobox model="@load(diagnostic.diagnostics)" 
+								selectedItem="@bind(diagnostic.selectedDiagnostic)" 
+								readonly="true"
+							/>
+							<label value=" or " sclass="infoLabel"/>
+							<button 
+								label="Upload new patient data"
+								image="/img/data/upload16.png" 
+								upload="true,maxsize=2048000"
+								onUpload="@command('upload')"
+								disabled="@load(diagnostic.userTaskRunning)"
+							/>
+						</hlayout>
+
+						<vlayout>
+							<groupbox height="558px" mold="3d" closable="false" contentStyle="margin: 0px; padding: 0px">
+								<caption id="captionDiagnostic" label="@load(diagnostic.committeeSelected ? diagnostic.selectedCommittee.name : 'No committee selected')"/>
+								
+								<toolbar>
+									<toolbarbutton label="Committee Info"
+										onClick="winCommitteeInfo.doModal()"
+									/>
+									<toolbarbutton label="Rename Committee" 
+										onClick="winRenameCommittee.doModal()" 
+										disabled="@load(not diagnostic.committeeSelected)"
+									/>
+									<toolbarbutton label="Delete Committee" 
+										onClick="@command('deleteCommittee')" 
+										disabled="@load(not diagnostic.committeeSelected)"
+									/>
+									<toolbarbutton label="Rename Diagnostic" 
+										onClick="winRenameDiagnostic.doModal()" 
+										disabled="@load(not diagnostic.diagnosticSelected)"
+									/>
+									<toolbarbutton label="Delete Diagnostic" 
+										onClick="@command('deleteDiagnostic')"
+										disabled="@load(not diagnostic.diagnosticSelected)"
+									/>
+									<toolbarbutton label="Incompatibilities" 
+										onClick="winDiagnosticIncompatibilities.doModal()"
+										disabled="@load(not diagnostic.diagnosticSelected)"
+									>
+										<attribute name="onClick">
+											es.uvigo.ei.sing.gc.model.entities.Committee.Compatibility compatibility =
+												diagnostic.getSelectedDiagnosticCompatibility();
+											if (compatibility == null) {
+												Messagebox.show(
+													"Incompatibility could not be checked",
+													"Error",
+													Messagebox.OK,
+													Messagebox.EXCLAMATION
+												);
+											} else if (compatibility == es.uvigo.ei.sing.gc.model.entities.Committee.Compatibility.FULL) {
+												Messagebox.show(
+													"No incompatibilities found",
+													"Incompatibility Check",
+													Messagebox.OK,
+													Messagebox.INFORMATION
+												);
+											} else {
+												winDiagnosticIncompatibilities.doModal();
+											}
+										</attribute>
+									</toolbarbutton>
+									<toolbarbutton label="Download Diagnostic" 
+										onClick="@command('downloadDiagnostic')"
+										disabled="@load(not diagnostic.diagnosticSelected)"
+									/>
+									<toolbarbutton label="Download Patient Data" 
+										onClick="@command('downloadPatientData')"
+										disabled="@load(not diagnostic.diagnosticSelected)"
+									/>
+								</toolbar>
+								
+								<div style="margin: 4px;">
+									<grid id="gridDiagnostic"
+										model="@load(diagnostic.selectedDiagnosticInfo) @template(each.header ?'modelGroup':'model')"
+										emptyMessage="No diagnostic selected"
+										height="500px"
+									>
+										<columns sizable="true" 
+											children="@load(diagnostic.columnNames) @template('columnNames')"
+										>
+											<template name="columnNames" var="columnName">
+												<!-- Invalidate added to avoid a problem with grid sizing -->
+												<column label="@load(columnName)" 
+													hflex="@load(columnName eq diagnostic.selectedDiagnostic.name? 'min' : 'false')" 
+													width="120px"
+													onCreate='gridDiagnostic.invalidate()'
+												/>
+											</template>
+										</columns>
+										
+										<rows>
+											<template name="modelGroup" var="info">
+												<group label="@load(info.title)" spans="@load(diagnostic.numColumns+1)"/>
+											</template>
+										
+											<template name="model" var="rowInfo">
+												<row children="@load(rowInfo.row) @template('cellValues')">
+													<template name="cellValues" var="cellValue">
+														<cell>
+															<label value="@load(cellValue)"/>
+														</cell>
+													</template>
+												</row>
+											</template>
+										</rows>
+										
+										<frozen columns="1"/>
+									</grid>
+								</div>
+							</groupbox>
+							
+							<include src="/status.zul"/>
+						</vlayout>
+					</vlayout>
+				</groupbox>
+				
+				<window id="winRenameCommittee"
+					visible="false"
+					closable="true"
+					contentStyle="margin: 0px; padding: 0px"
+					height="140px"
+					width="240px"
+					title="Rename Committee"
+					border="normal"
+					onClose="self.setVisible(false); event.stopPropagation()"
+					onOK="@command('renameCommittee')"
+				>
+					<vlayout spacing="5px" style="margin: 5px" height="54px">
+						<label value="Input new committee name"/>
+						<textbox value="@bind(diagnostic.committeeNewName)" hflex="true">
+							<attribute name="onOk">
+								winRenameCommittee.setVisible(false);
+								Events.postEvent(Events.ON_OK, winRenameCommittee, null);
+							</attribute>
+						</textbox>
+					</vlayout>
+
+					<div height="50px" sclass="renameWindowButtons">
+						<button label="Ok">
+							<attribute name="onClick">
+								winRenameCommittee.setVisible(false);
+								Events.postEvent(Events.ON_OK, winRenameCommittee, null);
+							</attribute>
+						</button>
+						<button label="Cancel" onClick="winRenameCommittee.setVisible(false)"/>
+					</div>
+				</window>
+				
+				<window id="winRenameDiagnostic"
+					visible="false"
+					closable="true"
+					contentStyle="margin: 0px; padding: 0px"
+					height="140px"
+					width="240px"
+					title="Rename Committee"
+					border="normal"
+					onClose="self.setVisible(false); event.stopPropagation()"
+					onOK="@command('renameDiagnostic')"
+				>
+					<vlayout spacing="5px" style="margin: 5px" height="54px">
+						<label value="Input new diagnostic name"/>
+						<textbox value="@bind(diagnostic.diagnosticNewName)" hflex="true">
+							<attribute name="onOK">
+								winRenameDiagnostic.setVisible(false);
+								Events.postEvent(Events.ON_OK, winRenameDiagnostic, null);
+							</attribute>
+						</textbox>
+					</vlayout>
+
+					<div height="50px" sclass="renameWindowButtons">
+						<button label="Ok">
+							<attribute name="onClick">
+								winRenameDiagnostic.setVisible(false);
+								Events.postEvent(Events.ON_OK, winRenameDiagnostic, null);
+							</attribute>
+						</button>
+						<button label="Cancel" onClick="winRenameDiagnostic.setVisible(false)"/>
+					</div>
+				</window>
+				
+				<window id="winCommitteeInfo" 
+					visible="false"
+					closable="true"
+					contentStyle="margin: 0px; padding: 0px"
+					height="600px"
+					width="800px"
+					title="Committee Information"
+					border="normal"
+					onClose="self.setVisible(false); event.stopPropagation()"
+				>
+					<grid id="gridCommitteeInfo"
+						model="@load(diagnostic.selectedCommitteeProperties) @template(each.group ?'modelGroup':'model')" 
+						height="559px" hflex="true"
+					>
+						<columns>
+							<column label="Property" width="150px"/>
+							<column label="Value"/>
+						</columns>
+						<rows>
+							<row>
+								<label value="Name"/>
+								<textbox value="@bind(diagnostic.committeeName)"/>
+							</row>
+							<template name="modelGroup" var="group">
+								<group label="@load(group.name)"/>
+							</template>
+							
+							<template name="model" var="property">
+								<row>
+									<label value="@load(property.name)"/>
+									<label value="@load(property.value)"/>
+								</row>
+							</template>
+						</rows>
+					</grid>
+				</window>
+				
+				<window id="winDiagnosticIncompatibilities" 
+					visible="false"
+					closable="true"
+					contentStyle="margin: 0px; padding: 0px"
+					height="600px"
+					width="800px"
+					title="Diagnostic Incompatibilities"
+					border="normal"
+					onClose="self.setVisible(false); event.stopPropagation()"
+				>
+					<grid id="gridDiagnosticIncompatibility"
+						model="@load(diagnostic.selectedDiagnosticIncompatibilities)" 
+						height="559px" hflex="true"
+					>
+						<columns>
+							<column label="Expert" width="150px"/>
+							<column label="Missing Genes"/>
+						</columns>
+						<rows>
+							<template name="model" var="incompatibility">
+								<row>
+									<label value="@load(incompatibility.expertName)"/>
+									<label value="@load(incompatibility.geneSetDescription)"/>
+								</row>
+							</template>
+						</rows>
+					</grid>
+				</window>
+			</window>
+			
+			<include src="/footer.zul"/>
+		</div>
+	</div>
+								
+</zk>

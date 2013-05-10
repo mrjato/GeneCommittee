@@ -1,0 +1,36 @@
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<caption label="${page.title}" image="/img/training22.png">
+	<hlayout vflex="true" valign="middle">
+		<!-- image src="/img/committee/stepHelp22.png" 
+			tooltiptext="Step Help"
+			style="cursor: pointer"
+			onClick="@command('stepHelp')"
+		/-->
+		<image src="/img/committee/returnTo22.png"
+			tooltiptext="Reset to this step"
+			style="cursor: pointer"
+			onClick="@command('resetToStep')"
+			unless="${arg.hideReset eq 'true'}"
+		/>
+		<image src="/img/committee/delete22.png" 
+			tooltiptext="Delete committee"
+			style="cursor: pointer"
+			onClick="@command('deleteCommittee')"
+		/>
+	</hlayout>
+</caption>

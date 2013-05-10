@@ -1,0 +1,159 @@
+<?page title="GeneCommittee" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk xmlns:html="http://www.w3.org/1999/xhtml" xmlns:w="http://www.zkoss.org/2005/zk/client" >
+	<style src="css/main.css"/>
+	<style src="css/index.css"/>
+	<script type="text/javascript" src="/js/ga.js"/>
+	<script type="text/javascript" defer="true"><![CDATA[
+		jq('$winSingUp').hide();
+	]]></script>
+
+	<div id="container" sclass="container" align="center">
+		<div sclass="header-container">
+			<hbox width="960px" height="48px" align="center" pack="start">
+				<image src="/img/logo.png"/>
+				<label value="GeneCommittee" hflex="true" sclass="header-text"/>
+			</hbox>
+		</div>
+		
+		<div id="content" sclass="content">
+			<hlayout valign="top" spacing="40px">
+				<div width="700px">
+					<html class="z-label"><![CDATA[
+						<img src="./img/index.png" alt="GeneCommittee"/> 
+						<p class="description">
+							<strong>GeneCommittee</strong> is a web-based interactive tool for <strong>giving specific support to the 
+							study of the discriminative classification power of custom hypothesis in the form of biological relevant 
+							gene sets</strong>. Provided with a straightforward and intuitive interface, <strong>GeneCommittee</strong> 
+							is able to <strong>render valuable information for diagnostic analyses and clinical management decisions</strong> 
+							based on systematically evaluating custom hypothesis over different data sets using complementary classifiers, 
+							<strong>a key aspect in clinical research</strong>.
+						</p>
+						<div id="additional-info-left" class="additional-info">
+							<h3>GeneCommittee's main features</h3>
+							<ul>
+								<li>Upload, store and manage different microarray data files.</li>
+								<li>Several configurable classification techniques, including Naïve Bayes, Decision Trees (C4.5/J48 and Random Forest), K-NN (K-nearest neighbours) and SVM (Support Vector Machines).
+								<li>User-friendly 6-step wizard to create new committees.</li>
+								<li>Classifier evaluation are executed in parallel in our server.</li>
+								<li>E-mail notifications, containing a direct link to the results stored in the server.</li>
+							</ul>
+						</div>
+						<div id="additional-info-right" class="additional-info">
+							<h3>GeneBrowser integration</h3>
+							<strong>GeneCommittee</strong> application takes advantage of the successful 
+							<a href="http://bioinformatics.ua.pt/genebrowser2/">GeneBrowser server</a>, 
+							a web-based tool for gene set enrichment. <!-- Main features:
+							<ul>
+								<li>Get more information and unveil hidden relations from your dataset.</li>
+								<li>Functional enrichment of genes sets by using several definitions (Gene Ontology, Homologies, Orthologies, Pathways, etc.)</li>
+								<li>Information about previous gene expression studies (ArrayExpress)</li>
+								<li>Most relevant bibliography (PubMed)</li>
+								<li>Easy and fast access</li>
+							</ul-->
+						</div>
+					]]></html>
+				</div>
+				<vbox pack="top" hflex="true" height="640px" spacing="20px"
+					apply="org.zkoss.bind.BindComposer" 
+					viewModel="@id('user') @init('es.uvigo.ei.sing.gc.view.models.UserViewModel')"
+					validationMessages="@id('vmsgs')"
+				>
+					<window title="Guest Login"
+						width="220px"
+						border="normal"
+					>
+						<vlayout>
+							<label value="Try GeneCommittee!" sclass="formLabel"/>
+							<button id="btnGuestLogin" label="Enter as guest" onClick="@command('guestLogin')"/>
+						</vlayout>
+					</window>
+					<window title="Login"
+						width="220px"
+						border="normal"
+					>
+						<vlayout>
+							<label value="Email" sclass="formLabel"/>
+							<textbox id="loginEmail" value="@bind(user.loginEmail)" hflex="true"/>
+							
+							<label value="Password" sclass="formLabel"/>
+							<textbox type="password" value="@bind(user.loginPassword)" hflex="true"/>
+							
+							<button id="btnLogin" label="Login" onClick="@command('checkLogin')"/>
+							
+							<separator height="10px"/>
+							
+							<hlayout>
+								<a onClick="@command('passwordForgot')" label="Forgot my password"/>
+								<a w:onClick="jq('$winSingUp').fadeIn(500); jq(this).fadeOut(500)" label="New Account"/>
+							</hlayout>
+						</vlayout>
+					</window>
+					
+					<window
+						id="winSingUp"
+						title="Sing Up (Create account)"
+						width="220px"
+						border="normal"
+					>
+						<vlayout>
+							<label value="Email" sclass="formLabel"/>
+							<textbox id="singUpEmail" value="@bind(user.singUpEmail) @validator('email')" hflex="true"/>
+							<!-- label id="errSingUpEmail" value="@bind(vmsgs[singUpEmail])"/-->
+							
+							<label value="Password" sclass="formLabel"/>
+							<textbox id="singUpPassword" type="password" value="@bind(user.singUpPassword) @validator('password')" hflex="true"/>
+							<!-- label id="errSingUpPassword" value="@bind(vmsgs[singUpPassword])"/-->
+							
+							<label value="Repeat Password" sclass="formLabel"/>
+							<textbox type="password" value="@bind(user.singUpRepeatPassword)" hflex="true">
+								<attribute name="onChange"><![CDATA[
+									if (!self.getValue().equals(singUpPassword.getValue())) {
+	                        			Clients.showNotification(
+	                        				"Password are different. Please, introduce the same password in both fields.", 
+	                        				Clients.NOTIFICATION_TYPE_ERROR, 
+	                        				self, 
+	                        				"end_center", 
+	                        				0
+	                        			);
+									}
+								]]></attribute>
+							</textbox>
+							
+							<button id="btnSingUp" label="Sing Up" onClick="@command('singUp')" disabled="@load(not user.singUpOk)"/>
+						</vlayout>
+					</window>
+				</vbox>
+			</hlayout>
+			
+			<include src="footer.zul"/>
+			
+			<html>
+				<a href="https://github.com/michada/GeneCommittee" target="_blank">
+					<img
+						style="position: absolute; top: 0; right: 0; border: 0;"
+						src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+						alt="Fork me on GitHub"
+					/>
+				</a>
+			</html>
+		</div>
+	</div>
+</zk>

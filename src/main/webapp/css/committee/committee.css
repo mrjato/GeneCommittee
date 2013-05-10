@@ -1,0 +1,97 @@
+@CHARSET "UTF-8";
+/*
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+.committee-tabpanel {
+	min-height: 540px;
+	padding: 0px;
+}
+
+.navigation-panel {
+	text-align: center;
+	padding: 12px;
+	background: #E0F0FF;
+	border-bottom: 2px solid #DDD;
+}
+
+.advanced {
+	background: red !important;
+}
+
+.selectableCell {
+	cursor: pointer;
+}
+
+.selectedCell {
+	background: #7EA9E3 !important;
+}
+
+.abortedCell {
+	color: #69868C;
+}
+
+.columnHeader {
+	padding-left: 5px;
+	font-weight: bold; 
+	color: #0F3B82;
+}
+
+div.data_grid td.z-row-inner:first-child {
+	background-color: #AEA !important;
+	text-align: left;
+}
+
+div.data_grid td.z-row-inner:nth-child(n+2) {
+	text-align: center;
+}
+
+div.data_grid th {
+	text-align: center;
+}
+
+div.data_grid th.z-auxheader {
+	background: #ABD !important;
+}
+
+div.data_grid th.z-auxheader:first-child {
+	text-align: left !important;
+}
+
+div.data_grid tr.z-row {
+	height: 5px !important;
+	line-height: 10px !important;
+	min-height: 5px !important;
+} 
+
+.firstColumn {
+	background: #BDDFB3 !important;
+}
+
+.firstColumnText {
+	font-weight: bold !important;
+	color: #465F3F !important;
+}
+
+/* Remove buttons borders */
+.committeeStep .z-button-tl, .committeeStep .z-button-tr, .committeeStep .z-button-bl, .committeeStep .z-button-br,
+.committeeStep .z-button-tm, .committeeStep .z-button-bm, .committeeStep .z-button-cl, .committeeStep .z-button-cr, 
+.committeeStep .z-button-cm {
+    background-image:none;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+} 

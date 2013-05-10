@@ -1,0 +1,33 @@
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<hbox 
+	hflex="true" 
+	height="22px"
+	align="center"
+	pack="start"
+	sclass="@load(status.statusClass)"
+	apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('status') @init('es.uvigo.ei.sing.gc.view.models.StatusViewModel')"
+>
+	<image src="@load(status.statusImage)"/>
+	<label value="@load(status.status)" sclass="statusBarLabel"/>
+	<a label="[Abort]" 
+		onClick="@command('abortExecution')"
+		visible="@load(status.userTaskRunning)"
+		sclass="abort"
+	/>
+</hbox>

@@ -1,0 +1,87 @@
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<vlayout vflex="true" hflex="true">
+	<zscript><![CDATA[
+		import es.uvigo.ei.sing.gc.view.models.committee.CommitteeViewModel;
+		
+		final String dataSetPath = CommitteeViewModel.DATA_SET_PATH;
+		final String geneSetPath = CommitteeViewModel.GENE_SET_PATH;
+		final String enrichmentPath = CommitteeViewModel.ENRICHMENT_PATH;
+		final String classifiersPath = CommitteeViewModel.CLASSIFIERS_PATH;
+		final String evaluationPath = CommitteeViewModel.EVALUATION_PATH;
+		final String summaryPath = CommitteeViewModel.SUMMARY_PATH;
+	]]></zscript>
+	<button label="Data Set"
+		sclass="committeeStep"
+		image="@load(committee.currentStep eq 'dataSet' ? '/img/committee/steps/dataset_on.png' : '/img/committee/steps/dataset_off.png')"
+		hoverImage="@load(committee.currentStep eq 'dataSet' ? '/img/committee/steps/dataset_on.png' : '/img/committee/steps/dataset_off.png')"
+		tooltiptext="Data Set"
+		href="${dataSetPath}"
+		height="48px"
+		hflex="true"
+	/>
+	<button label="Gene Set" 
+		sclass="committeeStep"
+		image="@load(committee.currentStep eq 'geneSet' ? '/img/committee/steps/geneset_on.png' : committee.dataSetCompleted ? '/img/committee/steps/geneset_off.png' : '/img/committee/steps/geneset_dis.png')"
+		hoverImage="@load(committee.currentStep eq 'geneSet' ? '/img/committee/steps/geneset_on.png' : committee.dataSetCompleted ? '/img/committee/steps/geneset_off.png' : '/img/committee/steps/geneset_dis.png')"
+		tooltiptext="Gene Set"
+		disabled="@load(not committee.dataSetCompleted)" 
+		href="${geneSetPath}"
+		height="48px"
+		hflex="true"
+	/>
+	<button label="Enrichment" 
+		sclass="committeeStep"
+		image="@load(committee.currentStep eq 'enrichment' ? '/img/committee/steps/enrichment_on.png' : committee.geneSetCompleted ? '/img/committee/steps/enrichment_off.png' : '/img/committee/steps/enrichment_dis.png')"
+		hoverImage="@load(committee.currentStep eq 'enrichment' ? '/img/committee/steps/enrichment_on.png' : committee.geneSetCompleted ? '/img/committee/steps/enrichment_off.png' : '/img/committee/steps/enrichment_dis.png')"
+		tooltiptext="Enrichment"
+		disabled="@load(not committee.geneSetCompleted)" 
+		href="${enrichmentPath}"
+		height="48px"
+		hflex="true"
+	/>
+	<button label="Evaluation" 
+		sclass="committeeStep"
+		image="@load(committee.currentStep eq 'classifiers' ? '/img/committee/steps/classifiers_on.png' : committee.enrichmentCompleted ? '/img/committee/steps/classifiers_off.png' : '/img/committee/steps/classifiers_dis.png')"
+		hoverImage="@load(committee.currentStep eq 'classifiers' ? '/img/committee/steps/classifiers_on.png' : committee.enrichmentCompleted ? '/img/committee/steps/classifiers_off.png' : '/img/committee/steps/classifiers_dis.png')"
+		tooltiptext="Evaluation"
+		disabled="@load(not committee.enrichmentCompleted)" 
+		href="${classifiersPath}"
+		height="48px"
+		hflex="true"
+	/>
+	<button label="Execution" 
+		sclass="committeeStep"
+		image="@load(committee.currentStep eq 'evaluation' ? '/img/committee/steps/evaluation_on.png' : committee.classifiersCompleted ? '/img/committee/steps/evaluation_off.png' : '/img/committee/steps/evaluation_dis.png')"
+		hoverImage="@load(committee.currentStep eq 'evaluation' ? '/img/committee/steps/evaluation_on.png' : committee.classifiersCompleted ? '/img/committee/steps/evaluation_off.png' : '/img/committee/steps/evaluation_dis.png')"
+		tooltiptext="Execution"
+		disabled="@load(not committee.classifiersCompleted)" 
+		href="${evaluationPath}"
+		height="48px"
+		hflex="true"
+	/>
+	<button label="Summary" 
+		sclass="committeeStep"
+		image="@load(committee.currentStep eq 'summary' ? '/img/committee/steps/summary_on.png' : committee.evaluationCompleted ? '/img/committee/steps/summary_off.png' : '/img/committee/steps/summary_dis.png')"
+		hoverImage="@load(committee.currentStep eq 'summary' ? '/img/committee/steps/summary_on.png' : committee.evaluationCompleted ? '/img/committee/steps/summary_off.png' : '/img/committee/steps/summary_dis.png')"
+		tooltiptext="Summary"
+		disabled="@load(not committee.evaluationCompleted)" 
+		href="${summaryPath}"
+		height="48px"
+		hflex="true"
+	/>
+</vlayout>

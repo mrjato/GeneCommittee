@@ -1,0 +1,135 @@
+<?page contentType="text/html;charset=UTF-8"?>
+
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<div sclass="header-container">
+	<hbox width="960px" height="48px" align="center" pack="start"
+		apply="org.zkoss.bind.BindComposer" 
+		viewModel="@id('vm') @init('es.uvigo.ei.sing.gc.view.models.NavigationViewModel')"
+	>
+		<image src="/img/logo.png"/>
+		<label value="GeneCommittee" hflex="true" sclass="header-text"/>
+		
+		<hbox height="32px" align="center" pack="center" spacing="8px">
+			<label value="@load(vm.userName)"/>
+			<separator bar="true" orient="vertical"/>
+		</hbox>
+		<hbox height="32px" width="200px" align="center" pack="center" spacing="8px">
+			<a href="#" image="/img/help22.png" tooltiptext="Help" onClick="winHelp.doOverlapped()"/>
+			<a href="#" image="/img/user22.png" tooltiptext="Personal data">
+				<attribute name="onClick">
+					if (vm.isGuest()) {
+						Messagebox.show(
+							"This option is disabled for guest users",
+							"Personal Data",
+							Messagebox.OK,
+							Messagebox.EXCLAMATION
+						);
+					} else {
+						winPersonal.doModal();
+					}
+				</attribute>
+			</a>
+			<separator bar="true" orient="vertical"/>
+			<a href="@load(vm.committeeTrainingURL)" image="/img/training22.png" tooltiptext="Committee Training"/>
+			<a href="/diagnostic.zul" image="/img/diagnostic22.png" tooltiptext="Diagnostic Mode"/>
+			<a href="/datasets.zul" image="/img/data22.png" tooltiptext="Data Set Management"/>
+			<separator bar="true" orient="vertical"/>
+			<a href="/home.zul" image="/img/home22.png" tooltiptext="Home"/>
+			<a href="/logout.zul" image="/img/logout22.png" tooltiptext="Close Session"/>
+		</hbox>
+	</hbox>
+	
+	<window id="winHelp"
+		visible="false"
+		closable="true"
+		sizable="true"
+		maximizable="true"
+		contentStyle="maring: 0px; padding: 0px"
+		height="600px"
+		width="840px"
+		position="center"
+		action="show: slideDown;hide: slideUp"
+		title="Help"
+		border="normal"
+		onClose="self.setVisible(false); event.stopPropagation()"
+	>
+		<iframe src="/help/index.html" hflex="true" vflex="true" />
+	</window>
+				
+	<window id="winPersonal"
+		apply="org.zkoss.bind.BindComposer" 
+		viewModel="@id('personal') @init('es.uvigo.ei.sing.gc.view.models.PersonalViewModel')"
+		visible="false"
+		closable="true"
+		sizable="true"
+		contentStyle="margin: 0px; padding: 5px"
+		height="240px"
+		width="360px"
+		title="Personal Data"
+		action="show: slideDown;hide: slideUp"
+		position="center"
+		border="normal"
+		onClose="self.setVisible(false); event.stopPropagation()"
+	>
+		<groupbox>
+			<caption label="Change Password"/>
+			<hlayout valign="middle">
+				<div width="140px">
+					<label value="Current Password" hflex="true"/>
+				</div>
+				<textbox value="@bind(personal.oldPassword) @validator('password')"
+					onOK="event.stopPropagation()" hflex="true"
+					type="password"
+					disabled="@load(personal.guest)"
+				/>
+			</hlayout>
+			<hlayout valign="middle">
+				<div width="140px">
+					<label value="New Password" width="100px"/>
+				</div>
+				<textbox value="@bind(personal.newPassword) @validator('password')"
+					onOK="event.stopPropagation()" hflex="true"
+					type="password"
+					disabled="@load(personal.guest)"
+				/>
+			</hlayout>
+			<hlayout valign="middle">
+				<div width="140px">
+					<label value="Repeat New Password" width="100px"/>
+				</div>
+				<textbox value="@bind(personal.repeatPassword) @validator('password')"
+					onOK="event.stopPropagation()" hflex="true"
+					type="password"
+					disabled="@load(personal.guest)"
+				/>
+			</hlayout>
+			<separator height="16px"/>
+				<button label="Change" disabled="@load(not personal.passwordOk or personal.guest)"
+					onClick="@command('changePassword')"
+				/>
+		</groupbox>
+		<separator vflex="true"/>
+		<groupbox>
+			<caption label="Change Email Notifications"/>
+			<checkbox label="Send me an email when a long task finishes"
+				checked="@bind(personal.notifyByEmail)"
+				disabled="@load(personal.guest)"
+			/>
+		</groupbox>
+	</window>
+</div>

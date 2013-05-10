@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="GeneCommittee - Data Sets Management" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+
+<?component name="dataView" extends="grid" class="es.uvigo.ei.sing.gc.view.data.DataSetView"?>
+
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<script type="text/javascript" src="/js/ga.js"/>
+	<style src="/css/data/datagrid.css"/>
+	<style src="/css/main.css"/>
+
+	<div id="container" sclass="container" align="center">
+		<include src="/header.zul"/>
+		
+		<div id="content" sclass="content">
+			<window 
+				id="main"
+				border="none" 
+				contentSclass="mainWindowContent"
+				width="960px"
+				apply="org.zkoss.bind.BindComposer" 
+				viewModel="@id('data') @init('es.uvigo.ei.sing.gc.view.models.datasets.DataSetsManagementViewModel')"
+			>
+				<groupbox mold="3d" height="680px" closable="false">
+					<caption label="Data Set Management" image="/img/data22.png"/>
+					
+					<vlayout hflex="true" vflex="true">
+						<borderlayout height="610px">
+							<north title="Available Data Sets" collapsible="true" height="290px">
+								<vlayout vflex="true" style="margin: 8px" spacing="12px">
+									<!-- hlayout style="padding: 8px;"-->
+									<hlayout hflex="true" valign="middle" spacing="10px" sclass="infoArea" renderdefer="500">
+										<label value="Search" sclass="infoLabel"/>
+										<textbox id="txtFilter" cols="50" value="@bind(data.filter)" onOK="self.setFocus(false)"/>
+										<!-- button id="btnFilter" label="Filter" image="/img/data/filter16.png"/-->
+										<button id="btnClearFilter" label="Clear" image="/img/data/clear16.png" onClick="@command('clearFilter')"/>
+										<label value=" or " sclass="infoLabel"/>
+										<button 
+											id="btnUpload"
+											upload="true,maxsize=204800" 
+											label="Upload a new data set" 
+											image="/img/data/upload16.png"
+											onUpload="@command('preupload', 'upload')"
+											disabled="@load(data.userTaskRunning)"
+										/>
+									</hlayout>
+									<listbox id="lbDataSets" model="@bind(data.dataSets)" rows="5">
+										<listhead>
+											<listheader label="Name" sort="auto" 
+												sortAscending="@init(data.nameAscSorter)" sortDescending="@init(data.nameDescSorter)"
+											/>
+											<listheader label="Samples" width="75px" 
+												sortAscending="@init(data.samplesAscSorter)" sortDescending="@init(data.samplesDescSorter)"
+											/>
+											<listheader label="Genes" width="75px" 
+												sortAscending="@init(data.genesAscSorter)" sortDescending="@init(data.genesDescSorter)"
+											/>
+											<listheader label="Conditions" width="75px" 
+												sortAscending="@init(data.conditionsAscSorter)" sortDescending="@init(data.conditionsDescSorter)"
+											/>
+											<listheader tooltip="View" width="30px"/>
+											<listheader tooltip="Delete" width="30px"/>
+											<listheader tooltip="Download" width="30px"/>
+										</listhead>
+										<template name="model" var="dataSet">
+											<listitem>
+												<listcell>
+													<textbox value="@bind(dataSet.name)" inplace="true" onChange="@command('renameDataSet', dataSet=dataSet)" hflex="true"/>
+												</listcell>
+												<listcell label="@load(dataSet.samples)"/>
+												<listcell label="@load(dataSet.variables)"/>
+												<listcell label="@load(dataSet.numClasses)"/>
+												<listcell image="/img/data/view16.png"
+													onClick="@command('changeCurrentDataSet', dataSet=dataSet)"
+													tooltiptext="View data set"
+												/>
+												<listcell image="/img/data/delete16.png" 
+													onClick="@command('deleteDataSet', dataSet=dataSet)"
+													tooltiptext="Delete data set"
+												/>
+												<listcell image="/img/data/download16.png" 
+													onClick="@command('downloadDataSet', dataSet=dataSet)"
+													tooltiptext="Download data set"
+												/>
+											</listitem>
+										</template>
+									</listbox>
+								</vlayout>
+							</north>
+							<center>
+								<groupbox id="gbDataSetViewer" mold="3d" hflex="true" vflex="true">
+									<caption label="Data Set Viewer"/>
+									<dataView 
+										id="dataSetView" 
+										visible="true" 
+										hflex="true" 
+										vflex="true" 
+										emptyMessage="No data set selected"
+										sizedByContent="false"
+										dataSet="@bind(data.currentDataSet)"
+									/>
+								</groupbox>
+							</center>
+						</borderlayout>
+						
+						<include src="/status.zul"/>
+					</vlayout>
+				</groupbox>
+		
+				<!-- window 
+					id="uploadingWindow" 
+					mode="modal"
+					title="Data Preprocessing" 
+					closable="false"
+					minimizable="true" 
+					visible="@bind(data.uploading)" 
+					sizable="false"
+				>
+					<vlayout>
+						<label value="Your data is been preprocessed. This may take some minutes."/>
+						<label multiline="true"><![CDATA[
+							This dialog will disappear when the data preprocessing finish.
+							You can close this window to continue working while your data is preprocessed.
+							Your data will appear at the bottom of the data list as soon as the preprocessing finish.
+						]]></label>
+						<button id="btnRunInBackground" label="Run in Background" onClick="uploadingWindow.setVisible(false)"/>
+					</vlayout>
+				</window-->
+			</window>
+			
+			<include src="/footer.zul"/>
+		</div>
+	</div>
+</zk>

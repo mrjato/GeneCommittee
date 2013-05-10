@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="Committee Training - Gene Set" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="/favicon.ico"?>
+<?init class="es.uvigo.ei.sing.gc.view.initiators.CommitteeInitiator" ?>
+
+<?component name="stepCaption" inline="true" macroURI="/committee/stepCaption.zul"?>
+<?component name="gsEditor" extends="groupbox" class="es.uvigo.ei.sing.gc.view.committee.GeneSelectionEditor"?>
+
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk xmlns="http://www.zkoss.org/2005/zul" 
+	xmlns:w="http://www.zkoss.org/2005/zk/client" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd "
+>
+	<script type="text/javascript" src="/js/ga.js"/>
+	<style src="/css/main.css"/>
+	<style src="/css/committee/committee.css"/>
+	
+	<div id="container" sclass="container" align="center">
+		<include src="/header.zul"/>
+		
+		<div id="content" sclass="content">
+			<window 
+				id="main"
+				border="none" 
+				contentSclass="mainWindowContent"
+				width="960px"
+				apply="org.zkoss.bind.BindComposer" 
+				viewModel="@id('committee') @init('es.uvigo.ei.sing.gc.view.models.committee.geneset.GeneSetViewModel')"
+			>
+				<groupbox mold="3d" hflex="true" height="680px" closable="false">
+					<stepCaption/>
+					
+					<vlayout id="mainLayout" hflex="true" vflex="true">
+						<borderlayout height="600px">
+							<west collapsible="true" width="150px" title="Navigation">
+								<include src="/committee/navigation.zul" mode="instant"/>
+							</west>
+							<center>
+								<vlayout vflex="true" style="margin: 8px" spacing="16px" renderdefer="500">
+									<hlayout hflex="true" valign="middle" spacing="10px" sclass="infoArea">
+										<label value="Select top " sclass="infoLabel"/>
+										<spinner constraint="@load(committee.genesConstraint)" 
+											width="70px"
+											value="@bind(committee.numGenes)"
+											disabled="@load(committee.userTaskRunning)"
+										/>
+										<label value=" genes using " sclass="infoLabel"/>
+										<combobox 
+											constraint="no empty" 
+											model="@bind(committee.geneSelectionTypes)"
+											selectedItem="@bind(committee.geneSelectionType)"
+											readonly="true"
+											disabled="@load(committee.userTaskRunning)"
+										/>
+										<separator hflex="true"/>
+										<button label="Select Genes" 
+											onClick="@command('updateRankedGenes')" 
+											disabled="@load(committee.userTaskRunning)"
+											autodisable="+self"
+										/>
+										<button label="Continue"
+											href="@load(committee.nextHref)"
+											disabled="@load(not committee.geneSetCompleted)"
+										/>
+									</hlayout>
+									
+									<vlayout spacing="10px">
+										<gsEditor columns="5" hflex="true" mold="3d"
+											geneSelection="@load(committee.geneSelection)" 
+											onChange="@command('notifyConfigurationChanged', geneSelection=self.geneSelection)"
+											disabled="@load(committee.userTaskRunning)"
+										>
+											<caption sclass="smallHeader" label="Advanced Configuration"/>
+										</gsEditor>
+										
+										<grid id="geneGrid"
+											model="@load(committee.rankedGenes)" 
+											height="462px"
+											mold="paging" 
+											autopaging="true"
+											emptyMessage="No genes selected"
+										>
+											<auxhead>
+												<auxheader label="Selected Genes" colspan="4"/>
+											</auxhead>
+											<columns>
+												<column label="Position"
+													sortAscending="@load(committee.ascPositionSorter)"
+													sortDescending="@load(committee.descPositionSorter)"
+													sortDirection="ascending"
+													width="75px"
+												/>
+												<column label="Gene"
+													sortAscending="@load(committee.ascGeneSorter)"
+													sortDescending="@load(committee.descGeneSorter)"
+												/>
+												<column label="Ranking"
+													sortAscending="@load(committee.ascRankingSorter)"
+													sortDescending="@load(committee.descRankingSorter)"
+												/>
+												<column label="Info" width="48px"/>
+											</columns>
+											<rows>
+												<template name="model" var="rankedGene">
+													<row>
+														<label value="@load(rankedGene.position)"/>
+														<label value="@load(rankedGene.gene)"/>
+														<label value="@load(rankedGene.ranking)"/>
+														<image src="/img/committee/genebrowser16.png"
+															onClick="@command('showGene', gene=rankedGene.gene)"
+															style="cursor: pointer;"
+															tooltiptext="Get gene info from GeneBrowser"
+														/>
+													</row>
+												</template>
+											</rows>
+										</grid>
+									</vlayout>
+								</vlayout>
+							</center>
+						</borderlayout>
+						
+						<separator height="2px"/>
+						
+						<include src="/status.zul"/>
+					</vlayout>
+				</groupbox>
+				<window 
+					id="geneBrowserWin" 
+					visible="@load(committee.geneURLVisible)" 
+					closable="true"
+					maximizable="true" 
+					title="Gene Browser Info" 
+					width="850px"
+					height="600px" 
+					border="normal"
+					sizable="true"
+					position="center"
+					contentStyle="margin: 0px; padding: 0px;"
+					mode="overlapped"
+					onClose="@command('closeGeneBrowserWindow')"
+				>
+					<iframe id="includeGeneWin" 
+						hflex="true" vflex="true"
+						src="@load(committee.geneURL)"
+					/>
+				</window>
+			</window>
+			
+			<include src="/footer.zul"/>
+		</div>
+	</div>
+</zk>

@@ -1,0 +1,181 @@
+@CHARSET "UTF-8";
+/*
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+body {
+	padding: 0px;
+	background-color: white;
+	background: linear-gradient(#E6EBF2, #F5F7FA);
+	background: -webkit-linear-gradient(#E6EBF2, #F5F7FA);
+	background: -moz-linear-gradient(#E6EBF2, #F5F7FA);
+	background: -o-linear-gradient(#E6EBF2, #F5F7FA);
+}
+
+.content {
+	margin: 0px auto;
+	width: 960px;
+	padding-top: 10px;
+	text-align: left;
+}
+
+.header {
+	height: 54px;
+	vertical-align: bottom;
+}
+
+.header-text {
+	font-size: 32px;
+	line-height: 36px;
+	color: #00396E;
+	text-shadow: 1px 1px 1px #404080;
+	font-weight: bold;
+}
+
+.header-container {
+	width: 100%; 
+	height: 48px;
+	background: white; 
+	border-bottom: 2px groove #ABC8E2;
+}
+
+.mainWindowContent {
+	background-color: white;
+	padding: 0px;
+}
+
+.z-grid-autopaging .z-row-cnt {
+    height: 14px;
+    overflow: hidden;
+}
+
+.bigHeader {
+	font-size: 22px;
+	font-weight: bold;
+	color: #0F3B82;
+}
+
+.mediumHeader {
+	font-size: 18px;
+	font-weight: bold;
+	color: #0F3B82;
+}
+
+.smallHeader {
+	font-size: 14px;
+	font-weight: bold;
+	color: #0F3B82;
+}
+
+.formLabel {
+	font-size: 12px;
+	font-weight: bold;
+	color: #0F3B82;
+}
+
+.formError {
+	font-size: 11px;
+	color: #E4675C; 
+}
+
+.divLoading {
+	text-align: center;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+
+.lblLoading {
+	line-height: 32px;
+	font-size: 22px;
+	font-weight: bold;
+	vertical-align: bottom;
+}
+
+.statusBar {
+	background-color: #183152;
+	color: white;
+	padding-left: 5px;
+}
+
+.statusBarRunning {
+	background-image: url('../img/loadingBar.gif');
+	background-repeat: repeat-x;
+	background-color: #183152;
+	color: white;
+	padding-left: 5px;
+}
+
+.statusBarLabel {
+	/*color: #183152;*/
+	color: white;
+}
+
+.statusBar a {
+	color: white;
+	text-decoration: none;
+}
+
+.statusBar a:ACTIVE, .statusBar a:HOVER, .statusBar a:LINK, .statusBar a:VISITED {
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.abort {
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+div.homeOption {
+	cursor: pointer; 
+	border: 1px solid #183152;
+	width: 648px;
+	margin: 0px;
+	padding: 0px;
+	height: 128px;
+	text-align: left;
+	color: #375D81;
+}
+
+.homeOptionHeader {
+	font-size: 20px;
+	font-weight: bold;
+	color: #183152;
+}
+
+.footer a, .footer a:ACTIVE, .footer a:HOVER, .footer a:LINK, .footer a:VISITED  {
+	text-decoration: none;
+	color: #183152;
+	font-weight: bold;
+}
+
+.infoArea {
+	padding: 5px;
+	background-color: #183152;
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.infoLabel {
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+}

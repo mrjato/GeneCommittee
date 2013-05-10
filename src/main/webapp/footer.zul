@@ -1,0 +1,76 @@
+<?page contentType="text/html;charset=UTF-8"?>
+
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<hbox width="960px" height="32px" align="bottom" pack="center" spacing="10px" sclass="footer">
+	<a href="#" onClick="winAbout.doModal()">About</a>
+	<a href="http://sing.ei.uvigo.es" target="_blank">SING</a>
+	<a href="http://bioinformatics.ua.pt" target="_blank">UA.PT BioInformatics</a>
+	<!-- a href="#">Citing</a-->
+	<a href="#" onClick="winFeedback.doModal()">Send us feedback</a>
+	
+	<window id="winAbout"
+		visible="false"
+		closable="true"
+		action="show: slideDown;hide: slideUp"
+		position="center"
+		contentStyle="margin: 0px; padding: 0px"
+		height="450px"
+		width="350px"
+		title="About"
+		border="normal"
+		onClose="self.setVisible(false); event.stopPropagation()"
+	>
+		<iframe hflex="true" vflex="true" src="/about.html"/>
+	</window>
+				
+	<window id="winFeedback"
+		apply="org.zkoss.bind.BindComposer" 
+		viewModel="@id('feedback') @init('es.uvigo.ei.sing.gc.view.models.FeedbackViewModel')"
+		visible="false"
+		closable="true"
+		sizable="true"
+		maximizable="true"
+		contentStyle="margin: 0px; padding: 0px"
+		action="show: slideDown;hide: slideUp"
+		position="center"
+		height="320px"
+		width="480px"
+		title="Rename Committee"
+		border="normal"
+		onClose="self.setVisible(false); event.stopPropagation()"
+		onOK="@command('sendFeedback')"
+	>
+		<vlayout spacing="5px" style="margin: 5px" vflex="true">
+			<hlayout valign="middle">
+				<label value="Email"/>
+				<textbox value="@bind(feedback.email) @validator('email')"
+					onOK="event.stopPropagation()" hflex="true"
+				/>
+			</hlayout>
+			<textbox value="@bind(feedback.feedback)" hflex="true" vflex="true" multiline="true"/>
+			<label value="Suggestions, bug reports, and comments are always welcome."/>
+		</vlayout>
+
+		<div height="40px" style="background-color: #e2f0ff; border-top: 1px groove blue; text-align: center; vertical-align: middle; padding: 8px">
+			<button label="Send" disabled="@load(not feedback.feedbackOk)"
+				onClick="winFeedback.setVisible(false); Events.postEvent(Events.ON_OK, winFeedback, null);"
+			/>
+			<button label="Cancel" onClick="winFeedback.setVisible(false)"/>
+		</div>
+	</window>
+</hbox>

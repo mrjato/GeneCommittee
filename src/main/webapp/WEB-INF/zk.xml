@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<zk>
+	<device-config>
+		<device-type>ajax</device-type>
+		<timeout-uri>/timeout.zul</timeout-uri><!-- An empty URL can cause the browser to reload the same URL -->
+	</device-config>
+	<device-config>
+	    <device-type>ajax</device-type>
+		<server-push-class>org.zkoss.zkmax.ui.comet.CometServerPush</server-push-class>
+	</device-config>
+	
+	<!-- Hibernate SessionFactory life cycle -->
+	<listener>
+		<description>Hibernate SessionFactory life cycle</description>
+		<listener-class>org.zkoss.zkplus.hibernate.HibernateSessionFactoryListener
+		</listener-class>
+	</listener>
+
+	<!-- Hibernate OpenSessionInView life cycle -->
+	<listener>
+		<description>Hibernate Open Session In View life cycle</description>
+		<listener-class>org.zkoss.zkplus.hibernate.OpenSessionInViewListener</listener-class>
+	</listener>
+	
+	<listener>
+		<description>Checks if there is a logged user. If doesn't redirects to index.zul. 
+		    It also adds and removes the UserGlobalListener.
+		</description>
+	    <listener-class>es.uvigo.ei.sing.gc.view.initiators.SecurityInitiator</listener-class>
+	</listener>
+	
+	<library-property>
+	    <name>org.zkoss.zul.Button.mold</name>
+	    <value>trendy</value>
+	</library-property>
+	<library-property>
+	    <name>org.zkoss.bind.appValidators</name>
+	    <value>email=es.uvigo.ei.sing.gc.utils.EmailValidator,password=es.uvigo.ei.sing.gc.utils.PasswordValidator</value>
+	</library-property>
+</zk>

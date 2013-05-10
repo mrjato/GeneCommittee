@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+  "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+  
+<!--
+	This file is part of Foobar.
+
+	Foobar is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	Foobar is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<hibernate-configuration>
+	<session-factory>
+		<!-- Database connection settings -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost/gc</property>
+		<property name="connection.username">genecommittee</property>
+		<property name="connection.password">genecommittee</property>
+
+		<!-- JDBC connection pool (use the built-in) -->
+		<property name="connection.pool_size">10</property>
+
+		<!-- SQL dialect -->
+		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+
+		<!-- Enable Hibernate's automatic session context management -->
+		<property name="current_session_context_class">thread</property>
+
+		<!-- Disable the second-level cache -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider
+		</property>
+
+		<!-- Echo all executed SQL to stdout -->
+		<property name="show_sql">false</property>
+
+		<!-- Drop and re-create the database schema on startup -->
+		<property name="hbm2ddl.auto">update</property>
+		
+		<property name="connection.provider_class">
+			org.hibernate.connection.C3P0ConnectionProvider
+		</property>
+		<property name="hibernate.c3p0.acquire_increment">1</property>
+		<property name="hibernate.c3p0.idle_test_period">100</property> <!-- seconds -->
+		<property name="hibernate.c3p0.max_size">100</property>
+		<property name="hibernate.c3p0.max_statements">0</property>
+		<property name="hibernate.c3p0.min_size">10</property>
+		<property name="hibernate.c3p0.timeout">1800</property> <!-- seconds -->
+		
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.User"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.Committee"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.DataSetMetaData"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.GeneSelectionMetaData"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.RankedGene"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.GeneSetMetaData"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.ExpertsEvaluatorMetaData"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.ClassifierBuilderMetaData"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.ExperimentMetaData"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.ExpertResult"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.SampleClassification"/>
+        <!-- mapping class="es.uvigo.ei.sing.gc.model.entities.ExpertMetaData"/-->
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.Diagnostic"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.PatientSetMetaData"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.SingUpConfirmation"/>
+        <mapping class="es.uvigo.ei.sing.gc.model.entities.PasswordRecovery"/>
+	</session-factory>
+</hibernate-configuration>
