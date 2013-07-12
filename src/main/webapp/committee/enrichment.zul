@@ -72,33 +72,63 @@
 										contentStyle="margin: 0px; padding: 0px"
 									>
 										<caption label="Gene Sets">
+											<label value="Selected Gene Sets"/>
+											<intbox readonly="true"
+												value="@load(committee.numSelectedGeneSets)"
+												cols="3"
+												inplace="true"
+											/>
 										</caption>
 										<toolbar >
-											<label value="Name Filter"/>
+											<label value="Filters" style="font-weight: bold"/>
+											<space/>
+											
+											<label value="Name"/>
 											<textbox id="txtNameFilter" 
 												value="@bind(committee.nameFilter)" 
 												onOK="self.setFocus(false)"
-												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
+												disabled="@load(!committee.hasGeneSets or committee.userTaskRunning)"
 												width="150px"
 											/>
 											
 											<space/>
 											
-											<label value="Source Filter"/>
+											<label value="Source"/>
 											<combobox id="cmbSourcesFilter"
 												model="@load(committee.sources)"
 												selectedItem="@bind(committee.sourceFilter)"
 												readonly="true"
-												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
+												disabled="@load(!committee.hasGeneSets or committee.userTaskRunning)"
 												width="150px"
 											/>
 											
-											<toolbarbutton label="Clear Filters" onClick="@command('clearFilters')"
-												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
+											<space/>
+											
+											<label value="P-Value"/>
+											<doublespinner id="spnPValueFilter"
+												constraint="min 0, max 1"
+												step="0.001"
+												value="@bind(committee.PValueFilter)"
+												instant="true"
+												disabled="@load(!committee.hasGeneSets or committee.userTaskRunning)"
+												cols="5"
 											/>
 											
-											<space bar="true"/>
+											<space/>
 											
+											<label value="Coverage"/>
+											<spinner id="spnCoverageFilter"
+												constraint="min 1"
+												step="1"
+												value="@bind(committee.coverageFilter)"
+												instant="true"
+												disabled="@load(!committee.hasGeneSets or committee.userTaskRunning)"
+												cols="5"
+											/>
+											
+											
+										</toolbar>
+										<toolbar>
 											<!-- toolbarbutton label="Select Page"/>
 											<toolbarbutton label="Unselect Page"/-->
 											<toolbarbutton label="Select All" onClick="@command('selectAll')"
@@ -110,14 +140,20 @@
 											<toolbarbutton label="Invert Selection" onClick="@command('invertSelection')"
 												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
 											/>
+											
+											<space bar="true"/>
+											
+											<toolbarbutton label="Clear Filters" onClick="@command('clearFilters')"
+												disabled="@load(empty committee.geneSets or committee.userTaskRunning)"
+											/>
 										</toolbar>
 										
-										<separator height="8px"/>
+										<separator height="5px"/>
 										
 										<grid
 											id="lbGeneSets" 
 											vflex="true"
-											height="400px"
+											height="380px"
 											mold="paging" 
 											autopaging="true"
 											model="@bind(committee.geneSets)"

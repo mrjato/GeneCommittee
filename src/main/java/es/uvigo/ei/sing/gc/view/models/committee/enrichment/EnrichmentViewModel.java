@@ -73,6 +73,8 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 	private boolean geneSetURLVisible = false;
 	private String nameFilter = "";
 	private String sourceFilter = "";
+	private double pValueFilter = 0.05;
+	private int coverageFilter = 10;
 	
 	private Map<String, Integer> geneSetCoverage = new HashMap<String, Integer>();
 	
@@ -93,6 +95,7 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 	public void setNameFilter(String filter) {
 		if (!this.nameFilter.toUpperCase().equals(filter.toUpperCase())) {
 			this.nameFilter = filter;
+			
 			BindUtils.postNotifyChange(null, null, this, "geneSets");
 		}
 	}
@@ -104,6 +107,30 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 	public void setSourceFilter(String sourceFilter) {
 		if (!this.sourceFilter.equals(sourceFilter)) {
 			this.sourceFilter = sourceFilter;
+
+			BindUtils.postNotifyChange(null, null, this, "geneSets");
+		}
+	}
+	
+	public double getPValueFilter() {
+		return this.pValueFilter;
+	}
+	
+	public void setPValueFilter(double filter) {
+		if (this.pValueFilter != filter) {
+			this.pValueFilter = filter;
+			
+			BindUtils.postNotifyChange(null, null, this, "geneSets");
+		}
+	}
+	
+	public int getCoverageFilter() {
+		return this.coverageFilter;
+	}
+	
+	public void setCoverageFilter(int filter) {
+		if (this.coverageFilter != filter) {
+			this.coverageFilter = filter;
 			
 			BindUtils.postNotifyChange(null, null, this, "geneSets");
 		}
@@ -115,7 +142,7 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 		if (committee.hasGeneSets()) {
 			final SortedSet<String> sources = new TreeSet<String>();
 			
-			for (GeneSetMetaData metadata : this.getGeneSets()) {
+			for (GeneSetMetaData metadata : this.getAllGeneSets()) {
 				sources.add(metadata.getSource());
 			}
 			
@@ -130,6 +157,10 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 
 	public boolean getHasGeneSets() {
 		return this.getCommittee().hasGeneSets();
+	}
+	
+	public int getNumSelectedGeneSets() {
+		return this.getCommittee().getNumSelectedGenes();
 	}
 	
 	public int getCoverage(GeneSetMetaData geneSet) {
@@ -153,6 +184,16 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 		}
 	}
 	
+	private List<GeneSetMetaData> getAllGeneSets() {
+		final Committee committee = this.getCommittee();
+		
+		if (committee.hasGeneSets()) {
+			return new ArrayList<GeneSetMetaData>(committee.getGeneSets());
+		} else {
+			return Collections.emptyList();
+		}
+	}
+	
 	public List<GeneSetMetaData> getGeneSets() {
 		final Committee committee = this.getCommittee();
 		
@@ -161,18 +202,18 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 			
 			final boolean nameEmpty = this.nameFilter.trim().isEmpty();
 			final boolean sourceEmpty = this.sourceFilter.isEmpty();
-			if (!nameEmpty || !sourceEmpty) {
-				final String filterUpper = this.nameFilter.toUpperCase();
-				final Iterator<GeneSetMetaData> iterator = currentGeneSets.iterator();
+			final String filterUpper = this.nameFilter.toUpperCase();
+			
+			final Iterator<GeneSetMetaData> iterator = currentGeneSets.iterator();
+			while (iterator.hasNext()) {
+				final GeneSetMetaData metadata = iterator.next();
 				
-				while (iterator.hasNext()) {
-					final GeneSetMetaData metadata = iterator.next();
-					
-					if ((!nameEmpty && !metadata.getName().toUpperCase().contains(filterUpper)) ||
-						(!sourceEmpty && !metadata.getSource().equals(this.sourceFilter))
-					) {
-						iterator.remove();
-					}
+				if ((!nameEmpty && !metadata.getName().toUpperCase().contains(filterUpper)) ||
+					(!sourceEmpty && !metadata.getSource().equals(this.sourceFilter)) ||
+					metadata.getPValue() > this.pValueFilter ||
+					this.getCoverage(metadata) < this.coverageFilter
+				) {
+					iterator.remove();
 				}
 			}
 			
@@ -199,16 +240,19 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 						session.update(geneSet);
 					}
 					EnrichmentViewModel.this.updateExecutions();
+					BindUtils.postNotifyChange(null, null, EnrichmentViewModel.this, "numSelectedGeneSets");
 				}
 			}
 		);
 	}
 	
 	@Command
-	@NotifyChange({ "geneSets", "nameFilter", "sourceFilter" })
+	@NotifyChange({ "geneSets", "nameFilter", "sourceFilter", "PValueFilter", "coverageFilter" })
 	public void clearFilters() {
 		this.nameFilter = "";
 		this.sourceFilter = "";
+		this.pValueFilter = 0.05;
+		this.coverageFilter = 10;
 	}
 	
 	@Command
@@ -228,6 +272,7 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 						session.update(geneSet);
 					}
 					EnrichmentViewModel.this.updateExecutions();
+					BindUtils.postNotifyChange(null, null, EnrichmentViewModel.this, "numSelectedGeneSets");
 				}
 			}
 		);
@@ -250,6 +295,7 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 						session.update(geneSet);
 					}
 					EnrichmentViewModel.this.updateExecutions();
+					BindUtils.postNotifyChange(null, null, EnrichmentViewModel.this, "numSelectedGeneSets");
 				}
 			}
 		);
@@ -278,6 +324,7 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 					session.update(geneSetMD);
 					
 					EnrichmentViewModel.this.updateExecutions();
+					BindUtils.postNotifyChange(null, null, EnrichmentViewModel.this, "numSelectedGeneSets");
 				}
 			},
 			new Runnable() {
@@ -285,6 +332,7 @@ public class EnrichmentViewModel extends CommitteeViewModel {
 				public void run() {
 					checkbox.setChecked(geneSet.isSelected());
 					EnrichmentViewModel.this.updateExecutions();
+					BindUtils.postNotifyChange(null, null, EnrichmentViewModel.this, "numSelectedGeneSets");
 				}
 			}
 		);

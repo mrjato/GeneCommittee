@@ -320,6 +320,10 @@ public class Committee implements Serializable {
 		return geneSets;
 	}
 	
+	public int getNumSelectedGenes() {
+		return this.getSelectedGeneSets().size();
+	}
+	
 	public boolean hasSelectedGeneSets() {
 		if (this.hasGeneSets()) {
 			for (GeneSetMetaData geneSet : this.getGeneSets()) {
