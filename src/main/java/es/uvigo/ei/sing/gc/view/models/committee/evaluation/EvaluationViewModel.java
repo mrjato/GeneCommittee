@@ -23,8 +23,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.Session;
@@ -203,7 +202,7 @@ public class EvaluationViewModel extends CommitteeViewModel {
 		if (event.getData() instanceof ExpertResult) {
 			final ExpertResult result = (ExpertResult) event.getData();
 			
-			HibernateUtil.currentSession().update(result);
+			HibernateUtil.currentSession().merge(result);
 			BindUtils.postNotifyChange(null, null, EvaluationViewModel.this, "evaluationCompleted");
 		}
 	}
@@ -248,10 +247,11 @@ public class EvaluationViewModel extends CommitteeViewModel {
 			for (GeneSetMetaData gsMetaData : committee.getSelectedGeneSets()) {
 				geneSetIdToName.put(gsMetaData.getGeneSetId(), gsMetaData.getName());
 			}
-			final SortedSet<ClassifierBuilderMetaData> classifiers = new TreeSet<ClassifierBuilderMetaData>(
-				new ClassifierBuilderMetaData.ClassifierBuilderMetaDataComparator()
-			);
-			classifiers.addAll(committee.getClassifiers());
+//			final SortedSet<ClassifierBuilderMetaData> classifiers = new TreeSet<ClassifierBuilderMetaData>(
+//				new ClassifierBuilderMetaData.ClassifierBuilderMetaDataComparator()
+//			);
+			final Set<ClassifierBuilderMetaData> classifiers = committee.getClassifiers();
+//			classifiers.addAll(committee.getClassifiers());
 			final String[] classifierNames = new String[classifiers.size()];
 			int i = 0;
 			for (ClassifierBuilderMetaData cbMetaData : classifiers) {
