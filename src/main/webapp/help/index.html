@@ -67,27 +67,41 @@
 		<div class="step">
 			Download your sample data sets (Right Click -&gt; Save As...):
 			<ul>
-				<li>
-					<a href="samples/Gutierrez_TRAIN.csv" target="_blank">Gutierrez <em>et al.</em> [TRAIN]</a>
+				<li><strong>DNA Microarray</strong>
+					<ul>
+						<li>
+							<a href="samples/Gutierrez.train.csv" target="_blank">Gutierrez <em>et al.</em> [TRAIN]</a>
+						</li>
+						<li>
+							<a href="samples/Gutierrez.diagnostic.csv" target="_blank">Gutierrez <em>et al.</em> [DIAGNOSTIC]</a>
+						</li>
+						<li>
+							<a href="samples/Bullinger.train.csv" target="_blank">Bullinger <em>et al.</em> [TRAIN]</a>
+						</li>
+						<li>
+							<a href="samples/Bullinger.diagnostic.csv" target="_blank">Bullinger <em>et al.</em> [DIAGNOSTIC]</a>
+						</li>
+						<li>
+							<a href="samples/Valk.train.csv" target="_blank">Valk <em>et al.</em> [TRAIN]</a>
+						</li>
+						<li>
+							<a href="samples/Valk.diagnostic.csv" target="_blank">Valk <em>et al.</em> [DIAGNOSTIC]</a>
+						</li>
+					</ul>
 				</li>
-				<li>
-					<a href="samples/Gutierrez_TEST.csv" target="_blank">Gutierrez <em>et al.</em> [TEST]</a>
-				</li>
-				<li>
-					<a href="samples/Bullinger_TRAIN.csv" target="_blank">Bullinger <em>et al.</em> [TRAIN]</a>
-				</li>
-				<li>
-					<a href="samples/Bullinger_TEST.csv" target="_blank">Bullinger <em>et al.</em> [TEST]</a>
-				</li>
-				<li>
-					<a href="samples/Valk_TRAIN.csv" target="_blank">Valk <em>et al.</em> [TRAIN]</a>
-				</li>
-				<li>
-					<a href="samples/Valk_TEST.csv" target="_blank">Valk <em>et al.</em> [TEST]</a>
+				<li><strong>RNA-Seq</strong>
+					<ul>
+						<li>
+							<a href="samples/TCGA.batches-93-96.train.csv" target="_blank">TCGA Batches 93 &amp; 96 [TRAIN]</a>
+						</li>
+						<li>
+							<a href="samples/TCGA.batches-103-109.diagnostic.csv" target="_blank">TCGA Batches 103 &amp; 109 [DIAGNOSTIC]</a>
+						</li>
+					</ul>
 				</li>
 			</ul>
 			<p>
-				This datasets were taken from the following work:<br/>
+				DNA microarray datasets were taken from the following work:<br/>
 			</p>
 			<p class="reference">
 				<strong>Gene expression profile reveals deregulation of genes with relevant functions in the different subclasses of acute myeloid leukemia</strong><br/>
@@ -105,7 +119,15 @@
 				<em>The New England Journal of Medicine</em> 2004, 350(16):1617-1628
 			</p>
 			<p>
-				Dataset was preprocessed and normalized using <a href="http://dx.doi.org/10.1093/bioinformatics/19.2.185" target="_blank">RMA</a> technique.
+				These datasets were preprocessed and normalized using <a href="http://dx.doi.org/10.1093/bioinformatics/19.2.185" target="_blank">RMA</a> technique.
+			</p>
+			<p>
+				RNA-Seq datasets were downloaded from <a href="http://cancergenome.nih.gov/" target="_blank">The Cancer Genome Atlas</a>.
+			</p>
+			<p>
+				Please, note that although diagnostic datasets usually do not include the class of the samples, the files listed above do.
+				We decided to include the classes in these files to facilitate the evaluation of geneCommittee.
+				Nevertheless, geneCommittee will completely ignore the assigned classes in the diagnostic step.
 			</p>
 		</div>
 		
@@ -153,13 +175,13 @@
 		</h2>
 		<div class="step">
 			<p>
-				<em>Gutierrez_TRAIN is already loaded</em>
+				<em>Gutierrez [TRAIN] is already loaded</em>
 			</p>
 			<div class="image">
 				<img alt="Data Management" src="img/example/4_data.web.png"/>
 			</div>
 			<p>
-				<em>Gutierrez_TRAIN data view</em>
+				<em>Gutierrez [TRAIN] data view</em>
 			</p>
 			<div class="image">
 				<img alt="Data View" src="img/example/5_data_view.web.png"/>
@@ -294,7 +316,7 @@
 				<a href="#index" class="return-to-top">Go to Index</a>
 			</h3>
 			<p>
-				<em>Select the committee created and upload Gutierrez_TEST.csv using 'Upload Patient Data'</em>
+				<em>Select the committee created and upload Gutierrez.diagnostic.csv using 'Upload Patient Data'</em>
 			</p>
 			<div class="image">
 				<img alt="Diagnostic Mode - Upload Patient Data" 
