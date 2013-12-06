@@ -34,7 +34,7 @@ import es.uvigo.ei.sing.gc.model.entities.GeneSetMetaData;
 import es.uvigo.ei.sing.gc.model.entities.RankedGene;
 import es.uvigo.ei.sing.gc.utils.HibernateUtil;
 import es.uvigo.ei.sing.gc.ws.ArrayOfString;
-import es.uvigo.ei.sing.gc.ws.GenebrowserSoap_GenebrowserSoap12_Client;
+import es.uvigo.ei.sing.gc.ws.GenebrowserClient;
 
 final class GeneEnrichmentSubtask implements Subtask<Set<GeneSetMetaData>> {
 	private static final Map<String, String> SOURCE_TRANSLATION = new HashMap<String, String>();
@@ -137,10 +137,6 @@ final class GeneEnrichmentSubtask implements Subtask<Set<GeneSetMetaData>> {
 			sb.append(genes.getGene());
 		}
 		
-		return GeneEnrichmentSubtask.enrich(specieName, sb.toString());
-	}
-
-	private static ArrayOfString enrich(String specieName, String geneList) {
-		return GenebrowserSoap_GenebrowserSoap12_Client.query(specieName, geneList);
+		return GenebrowserClient.querySoap12(specieName, sb.toString());
 	}
 }
