@@ -16,19 +16,35 @@
 */
 package es.uvigo.ei.sing.gc.view;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.compressors.CompressorException;
+import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+
+import es.uvigo.ei.sing.datatypes.data.Data;
+import es.uvigo.ei.sing.gc.execution.AbortException;
 import es.uvigo.ei.sing.gc.utils.HibernateUtil;
+import es.uvigo.ei.sing.wekabridge.io.operations.LoadClassificationData;
+
 import org.zkoss.zul.Paging;
 
 
@@ -239,5 +255,37 @@ public final class ZKUtils {
 				throw he;
 			}
 		}
+	}
+
+	public static Data loadDataFromMedia(Media media) throws ArchiveException, IOException,
+			AbortException, Exception {
+		final Reader reader;
+		if (media.isBinary()) { 
+			// It seems that, in Windows, big text files are uploaded as binary.
+			final String fileName = media.getName().toLowerCase();
+			if (fileName.endsWith(".csv") || fileName.endsWith(".txt")) {
+				reader = new InputStreamReader(media.getStreamData());
+			} else {
+				InputStream is;
+				try {
+					final CompressorStreamFactory factory = new CompressorStreamFactory();
+					is = factory.createCompressorInputStream(new BufferedInputStream(media.getStreamData()));
+				} catch (CompressorException ce) {
+					final ArchiveStreamFactory factory = new ArchiveStreamFactory();
+					is = factory.createArchiveInputStream(new BufferedInputStream(media.getStreamData()));
+					
+					if (((ArchiveInputStream) is).getNextEntry().isDirectory())
+						throw new IOException("Invalid archive file format");
+				}
+				
+				reader = new InputStreamReader(is);
+			}
+		} else {
+			reader = media.getReaderData();
+		}
+		
+		return LoadClassificationData.loadData(
+			reader, media.getName(), null, null, true, null
+		);
 	}
 }

@@ -42,10 +42,10 @@ import es.uvigo.ei.sing.wekabridge.attributes.evaluators.ReliefFAttributeEvalBui
  *
  */
 public enum GeneSelectionType {
-	CHI_SQUARE("Chi-square", new ChiSquaredAttributeEvalBuilder(), "http://weka.sourceforge.net/doc/weka/attributeSelection/ChiSquaredAttributeEval.html"), 
-	GAIN_RATIO("Gain Ratio", new GainRatioAttributeEvalBuilder(), "http://weka.sourceforge.net/doc/weka/attributeSelection/GainRatioAttributeEval.html"), 
-	INFO_GAIN("Info Gain", new InfoGainAttributeEvalBuilder(), "http://weka.sourceforge.net/doc/weka/attributeSelection/InfoGainAttributeEval.html"), 
-	RELIEF_F("Relief-F", new ReliefFAttributeEvalBuilder(), "http://weka.sourceforge.net/doc/weka/attributeSelection/ReliefFAttributeEval.html");
+	CHI_SQUARE("Chi-square", new ChiSquaredAttributeEvalBuilder(), "http://weka.sourceforge.net/doc.stable/weka/attributeSelection/ChiSquaredAttributeEval.html"), 
+	GAIN_RATIO("Gain Ratio", new GainRatioAttributeEvalBuilder(), "http://weka.sourceforge.net/doc.stable/weka/attributeSelection/GainRatioAttributeEval.html"), 
+	INFO_GAIN("Info Gain", new InfoGainAttributeEvalBuilder(), "http://weka.sourceforge.net/doc.stable/weka/attributeSelection/InfoGainAttributeEval.html"), 
+	RELIEF_F("Relief-F", new ReliefFAttributeEvalBuilder(), "http://weka.sourceforge.net/doc.stable/weka/attributeSelection/ReliefFAttributeEval.html");
 	
 	private final String name;
 	private final ASEvaluationBuilder builder;

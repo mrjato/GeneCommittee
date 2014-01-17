@@ -17,15 +17,7 @@
 package es.uvigo.ei.sing.gc.view.models.datasets;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
-import org.apache.commons.compress.archivers.ArchiveInputStream;
-import org.apache.commons.compress.archivers.ArchiveStreamFactory;
-import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -39,7 +31,6 @@ import es.uvigo.ei.sing.gc.model.entities.DataSetMetaData;
 import es.uvigo.ei.sing.gc.model.entities.User;
 import es.uvigo.ei.sing.gc.utils.HibernateUtil;
 import es.uvigo.ei.sing.gc.view.ZKUtils;
-import es.uvigo.ei.sing.wekabridge.io.operations.LoadClassificationData;
 
 class UploadDataSubTask implements Subtask<DataSetMetaData> {
 	private final Media media;
@@ -66,35 +57,7 @@ class UploadDataSubTask implements Subtask<DataSetMetaData> {
 		try {
 			if (this.aborted) throw new AbortException();
 			
-			final Reader reader;
-			if (this.media.isBinary()) {
-				InputStream is;
-				try {
-					final CompressorStreamFactory factory = new CompressorStreamFactory();
-					is = factory.createCompressorInputStream(this.media.getStreamData());
-				} catch (CompressorException ce) {
-					final ArchiveStreamFactory factory = new ArchiveStreamFactory();
-					is = factory.createArchiveInputStream(this.media.getStreamData());
-					
-					if (((ArchiveInputStream) is).getNextEntry().isDirectory())
-						throw new IOException("Invalid archive file format");
-				}
-				
-				reader = new InputStreamReader(is);
-			} else {
-				reader = this.media.getReaderData();
-			}
-			
-			if (this.aborted) throw new AbortException();
-			
-			final Data data = LoadClassificationData.loadData(
-				reader,
-				media.getName(),
-				null,
-				null,
-				true,
-				null
-			);
+			final Data data = ZKUtils.loadDataFromMedia(this.media);
 			
 			if (this.aborted) throw new AbortException();
 			
