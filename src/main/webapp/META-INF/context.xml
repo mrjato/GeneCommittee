@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This file is part of GeneCommittee.
+
+	GeneCommittee is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	GeneCommittee is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with GeneCommittee.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<Context>
+	<!-- Gmail configuration -->
+	<Resource
+		name="mail/Session"
+		auth="Container"
+		type="javax.mail.Session"
+		mail.transport.protocol="smtp"
+		mail.smtp.host="smtp.gmail.com"
+		mail.smtp.starttls.enable="true"
+		mail.smtp.port="587"
+		mail.smtp.user="<email>"
+		mail.smtp.auth="true"
+		password="<password>"
+	/>
+	
+	<!-- Turn off session serialization -->
+    <Manager
+        className="org.apache.catalina.session.PersistentManager"
+		debug="0" 
+		distributable="false" 
+		saveOnRestart="false"
+	>
+        <Store className="org.apache.catalina.session.FileStore"/>
+    </Manager>
+	
+</Context>
