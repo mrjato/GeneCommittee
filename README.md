@@ -11,11 +11,12 @@ Requirements
 ------------
 To run GeneCommittee you need:
   - Java 1.6+
-  - Tomcat 6+ (or any other Java Servlet container)
+  - Tomcat 7 (or any other Java Servlet 3.0 container)
   - A hibernate-compatible database (MySQL 5.1+ recommended)
   - An email account compatible with Java Mail (to allow notifications and feedback sending)
   - Maven 2+
   - Git
+  - ZK EE 6.5.0. (**Note**: Although ZK EE is a commercial license, you can request a free ZK Open Source License if your project is Open Source. More info: http://www.zkoss.org/license)
 
 Installation
 ------------
