@@ -50,3 +50,9 @@ The files resulting from the build are placed in the `target` directory.
 
 ### 4. Deploy
 After GeneCommittee building you can find a `GC.war` file in the `target` directory, that you can deploy in your Tomcat and start using your own GeneCommittee.
+
+Citing
+------
+If you use GeneCommittee, please, cite us:
+
+>M. Reboiro-Jato; J. Arrais; J.L. Oliveira; F. Fdez-Riverola. [geneCommittee: a web-based tool for extensively testing the discriminatory power of biologically relevant gene sets in microarray data classification](http://www.biomedcentral.com/1471-2105/15/31). BMC Bioinformatics (2014). 15:31. ISSN: 1471-2105

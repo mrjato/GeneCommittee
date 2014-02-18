@@ -70,6 +70,13 @@
 								<li>Easy and fast access</li>
 							</ul-->
 						</div>
+						<div id="citation">
+							<h3>Related Publications</h3>
+							M. Reboiro-Jato; J. Arrais; J.L. Oliveira; F. Fdez-Riverola.
+							<a href="http://www.biomedcentral.com/1471-2105/15/31" target="_blank">
+								geneCommittee: a web-based tool for extensively testing the discriminatory power of biologically relevant gene sets in microarray data classification
+							</a>. BMC Bioinformatics (2014). 15:31. ISSN: 1471-2105
+						</div>
 					]]></html>
 				</div>
 				<vbox pack="top" hflex="true" height="640px" spacing="20px"

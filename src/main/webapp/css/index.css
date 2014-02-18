@@ -39,3 +39,19 @@ div#additional-info-right {
 	width: 240px; 
 	float: right; 
 }
+
+div#citation {
+	border: 1px solid #999;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	
+	padding: 0px 10px 10px 10px;
+	clear: both;
+	background: white;
+}
+
+a {
+	text-decoration: none;
+	color: #00396E;
+}
