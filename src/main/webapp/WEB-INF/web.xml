@@ -73,17 +73,46 @@
 		<welcome-file>index.zul</welcome-file>
 	</welcome-file-list>
 	
-	<resource-ref>
-    	<description>Resource reference to a container-managed JNDI JavaMail factory for sending e-mails.</description>
-	    <res-ref-name>mail/Session</res-ref-name>
-	    <res-type>javax.mail.Session</res-type>
-	    <res-auth>Container</res-auth>
-	</resource-ref>
-	
 	<env-entry>
 		<env-entry-name>genecommittee.server</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>http://xistral.ei.uvigo.es/GC/</env-entry-value>
+		<env-entry-value>http://sing.ei.uvigo.es/GC/</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+	    <env-entry-name>genecommittee/mail/mail.smtp.host</env-entry-name>
+	    <env-entry-type>java.lang.String</env-entry-type>
+	    <env-entry-value>smtp.gmail.com</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+	    <env-entry-name>genecommittee/mail/mail.smtp.port</env-entry-name>
+	    <env-entry-type>java.lang.String</env-entry-type>
+	    <env-entry-value>587</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+	    <env-entry-name>genecommittee/mail/mail.smtp.starttls.enable</env-entry-name>
+	    <env-entry-type>java.lang.String</env-entry-type>
+	    <env-entry-value>true</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+	    <env-entry-name>genecommittee/mail/mail.smtp.auth</env-entry-name>
+	    <env-entry-type>java.lang.String</env-entry-type>
+	    <env-entry-value>true</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+	    <env-entry-name>genecommittee/mail/login</env-entry-name>
+	    <env-entry-type>java.lang.String</env-entry-type>
+	    <env-entry-value>email@for.notifications</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+	    <env-entry-name>genecommittee/mail/password</env-entry-name>
+	    <env-entry-type>java.lang.String</env-entry-type>
+	    <env-entry-value>emailpassword</env-entry-value>
 	</env-entry>
 	
 	<env-entry>

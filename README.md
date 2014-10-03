@@ -34,6 +34,9 @@ The configured database must exists and be empty, and the user must have SELECT,
 If you want to use a DBMS other than MySQL, then you also have to modify the `pom.xml` file to replace the MySQL driver with a driver suitable for your DBMS.
 
 #### 2.2 Email configuration
+Since version 1.0.1, email can be configured in the `src/main/webapp/META-INF/web.xml` file. The entries prefixed with `genecommittee/mail/` will be provided to `javax.mail.Session` as properties. Login and password values should be configured in the `genecommittee/mail/login` and `genecommittee/mail/password` entries. Please, refer to the [Java Mail](https://java.net/projects/javamail/pages/Home) documentation for further information. 
+
+###### Version 1.0
 Email address configuration can be changed modifying the `src/main/webapp/META-INF/context.xml` file. In this file you will find an example "Resource" declaration for a Gmail account. You can modify it to use your preferred email server.
 
 #### 2.3 Environment parameters

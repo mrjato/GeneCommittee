@@ -18,10 +18,15 @@ package es.uvigo.ei.sing.gc;
 
 
 import java.io.File;
+import java.util.Properties;
 
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import javax.naming.Context;
+import javax.naming.Binding;
 import javax.naming.InitialContext;
+import javax.naming.NameClassPair;
+import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 
 public final class Configuration {
@@ -31,7 +36,7 @@ public final class Configuration {
 		return Configuration.instance;
 	}
 
-	private InitialContext initialContext;
+	private volatile InitialContext initialContext;
 	
 	private Configuration() {}
 	
@@ -40,14 +45,19 @@ public final class Configuration {
 			this.initialContext = new InitialContext();
 	}
 	
+	private InitialContext getInitialContext() throws NamingException {
+		if (this.initialContext == null ){
+			this.createInitialContext();
+		}
+		
+		return this.initialContext;
+	}
+	
 	@SuppressWarnings("unchecked")
 	private <T> T getConfigParam(String param){
 		param = "genecommittee." + param;
 		try {
-			if (this.initialContext == null)
-				this.createInitialContext();
-			
-			return (T) this.initialContext.lookup("java:comp/env/" + param);
+			return (T) this.getInitialContext().lookup("java:comp/env/" + param);
 		} catch (NamingException e) {
 			return null;
 		}
@@ -126,15 +136,34 @@ public final class Configuration {
 	}
 	
 	public Session getMailSession() {
+		final Properties properties = new Properties();
+		
 		try {
-			if (this.initialContext == null)
-				this.createInitialContext();
+			final String jndi = "java:comp/env/genecommittee/mail/";
+			final InitialContext context = this.getInitialContext();
+			final NamingEnumeration<Binding> list = context.listBindings(jndi);
 			
-			final Context envCtx = (Context) this.initialContext.lookup("java:comp/env");
-			return (Session) envCtx.lookup("mail/Session");
+			while (list.hasMore()) {
+				final NameClassPair next = list.next();
+				properties.put(next.getName(), context.lookup(
+					jndi + next.getName()
+				));
+			}
 		} catch (NamingException e) {
-			return null;
+			e.printStackTrace();
 		}
+		
+		final String password = properties.getProperty("password");
+		final String login = properties.getProperty("login");
+		
+		return password == null || login == null? 
+			Session.getDefaultInstance(properties):
+			Session.getDefaultInstance(properties, new Authenticator() {
+				@Override
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(login, password);
+				}
+			});
 	}
 	
 	public String getGeneBrowserURL() {

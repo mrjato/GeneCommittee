@@ -17,20 +17,6 @@
 -->
 
 <Context>
-	<!-- Gmail configuration -->
-	<Resource
-		name="mail/Session"
-		auth="Container"
-		type="javax.mail.Session"
-		mail.transport.protocol="smtp"
-		mail.smtp.host="smtp.gmail.com"
-		mail.smtp.starttls.enable="true"
-		mail.smtp.port="587"
-		mail.smtp.user="<email>"
-		mail.smtp.auth="true"
-		password="<password>"
-	/>
-	
 	<!-- Turn off session serialization -->
     <Manager
         className="org.apache.catalina.session.PersistentManager"
@@ -40,5 +26,4 @@
 	>
         <Store className="org.apache.catalina.session.FileStore"/>
     </Manager>
-	
 </Context>
